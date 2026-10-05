@@ -28,6 +28,7 @@ const DIRECTIONS = [
 ];
 
 let currentPlayer = BLACK;
+// let gameOver = false;
 // 盤面の要素を取得
 const board = document.getElementById("board");
 
@@ -67,8 +68,16 @@ function cellClick(row, col) {
 
   const result = countPieces();
 
-  console.log("黒の枚数：" + result.blackCount);
-  console.log("白の枚数：" + result.whiteCount);
+  console.log(
+    "黒の枚数：" + result.blackCount + "\n白の枚数：" + result.whiteCount,
+  );
+  alert(
+    `${currentPlayer === BLACK ? "黒" : "白"}のターンですわよ` +
+      "\n黒の枚数：" +
+      result.blackCount +
+      "\n白の枚数：" +
+      result.whiteCount,
+  );
 
   switchPlayer();
 
@@ -77,6 +86,7 @@ function cellClick(row, col) {
 
     if (!hasValidMove()) {
       alert("おわり！");
+      endGame();
       console.log("終了");
     } else {
       alert("置ける場所がありません！パス！");
@@ -93,7 +103,7 @@ function switchPlayer() {
   } else {
     currentPlayer = BLACK;
   }
-  alert(`${currentPlayer === BLACK ? "黒" : "白"}のターンですわよ`);
+  // alert(`${currentPlayer === BLACK ? "黒" : "白"}のターンですわよ`);
   console.log(`${currentPlayer === BLACK ? "黒" : "白"}のターン！`);
 }
 
@@ -262,5 +272,22 @@ function countPieces() {
     whiteCount,
   };
 }
+
+//ゲームの勝敗判定
+function endGame() {
+  const result = countPieces();
+
+  if (result.blackCount === result.whiteCount) {
+    console.log("引き分け");
+  } else if (result.blackCount > result.whiteCount) {
+    console.log("黒の勝ち！");
+  } else {
+    console.log("白の勝ち！");
+  }
+  console.log(
+    "\n黒：" + result.blackCount + "枚\n白：" + result.whiteCount + "枚",
+  );
+}
+
 //初期状態の盤面を描画
 renderBoard();
