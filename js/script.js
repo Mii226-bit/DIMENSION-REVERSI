@@ -50,12 +50,13 @@ for (let row = 0; row < BOARD_SIZE; row++) {
 function cellClick(row, col) {
   console.log(`Clicked cell at row ${row}, col ${col}`);
 
-  if (boardData[row][col] !== EMPTY || !canFlip(row, col)) {
+  if (!canFlip(row, col)) {
     alert("そこには置けないにょ～ん（笑）\n画面ちゃんと見てね\nぷ\nぷ\nぷ");
+    console.log("置けません");
     return;
   }
 
-  alert("おけるわよ\nうおお");
+  // alert("おけるわよ\nうおお");
   //クリックした場所に駒を置く
   boardData[row][col] = currentPlayer;
 
@@ -64,7 +65,24 @@ function cellClick(row, col) {
 
   renderBoard();
 
+  const result = countPieces();
+
+  console.log("黒の枚数：" + result.blackCount);
+  console.log("白の枚数：" + result.whiteCount);
+
   switchPlayer();
+
+  if (!hasValidMove()) {
+    switchPlayer();
+
+    if (!hasValidMove()) {
+      alert("おわり！");
+      console.log("終了");
+    } else {
+      alert("置ける場所がありません！パス！");
+      console.log("パス");
+    }
+  }
 }
 
 //プレイヤーを切り替える
@@ -79,8 +97,9 @@ function switchPlayer() {
   console.log(`${currentPlayer === BLACK ? "黒" : "白"}のターン！`);
 }
 
-//cells:マス目の要素を取得してvalueに格納
+//画面描写
 function renderBoard() {
+  //cells:マス目の要素を取得してvalueに格納
   const cells = document.querySelectorAll(".cell");
 
   cells.forEach((cell) => {
@@ -110,13 +129,17 @@ function renderBoard() {
   });
 }
 
+//ひっくり返せるかどうか:返り値boolean
 function canFlip(row, col) {
+  if (boardData[row][col] !== EMPTY) {
+    return false;
+  }
   const opponentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
   for (let i = 0; i < DIRECTIONS.length; i++) {
-    const rowDIRECTION = DIRECTIONS[i][0];
+    const rowDirection = DIRECTIONS[i][0];
     const colDirection = DIRECTIONS[i][1];
 
-    let checkRow = row + rowDIRECTION;
+    let checkRow = row + rowDirection;
     let checkCol = col + colDirection;
 
     if (
@@ -130,7 +153,7 @@ function canFlip(row, col) {
     }
 
     //隣は相手の駒だったのでその先を調べる
-    checkRow += rowDIRECTION;
+    checkRow += rowDirection;
     checkCol += colDirection;
 
     while (
@@ -145,25 +168,26 @@ function canFlip(row, col) {
       if (boardData[checkRow][checkCol] === currentPlayer) {
         return true;
       }
-      checkRow += rowDIRECTION;
+      checkRow += rowDirection;
       checkCol += colDirection;
     }
   }
   return false;
 }
 
+//実際にデータを書き換える
 function flipPieces(row, col) {
   const opponentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
 
   for (let i = 0; i < DIRECTIONS.length; i++) {
-    const rowDIRECTION = DIRECTIONS[i][0];
+    const rowDirection = DIRECTIONS[i][0];
     const colDirection = DIRECTIONS[i][1];
 
     const flipList = [];
 
     //ひっくりかえせるかどうかの変数
     let canFlipDirection = false;
-    let checkRow = row + rowDIRECTION;
+    let checkRow = row + rowDirection;
     let checkCol = col + colDirection;
     if (
       checkRow < 0 ||
@@ -177,7 +201,7 @@ function flipPieces(row, col) {
 
     //隣は相手の駒だったのでその先を調べる
     flipList.push([checkRow, checkCol]);
-    checkRow += rowDIRECTION;
+    checkRow += rowDirection;
     checkCol += colDirection;
 
     while (
@@ -194,7 +218,7 @@ function flipPieces(row, col) {
         break;
       }
       flipList.push([checkRow, checkCol]);
-      checkRow += rowDIRECTION;
+      checkRow += rowDirection;
       checkCol += colDirection;
     }
 
@@ -205,6 +229,38 @@ function flipPieces(row, col) {
       }
     }
   }
+}
+
+//おけるマスがあるかどうか
+function hasValidMove() {
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      if (canFlip(row, col)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+//白と黒の駒の数を数える
+function countPieces() {
+  let blackCount = 0;
+  let whiteCount = 0;
+
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      if (boardData[row][col] === BLACK) {
+        blackCount++;
+      } else if (boardData[row][col] === WHITE) {
+        whiteCount++;
+      }
+    }
+  }
+  return {
+    blackCount,
+    whiteCount,
+  };
 }
 //初期状態の盤面を描画
 renderBoard();
