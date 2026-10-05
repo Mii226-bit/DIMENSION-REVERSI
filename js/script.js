@@ -55,14 +55,18 @@ function cellClick(row, col) {
     return;
   }
 
-  alert("おけるわよ\nまだひっくり返らんけどな！わはは");
-
+  alert("おけるわよ\nうおお");
+  //クリックした場所に駒を置く
   boardData[row][col] = currentPlayer;
+
+  //置いた駒に対応してひっくり返す
+  flipPieces(row, col);
 
   renderBoard();
 
   switchPlayer();
 }
+
 //プレイヤーを切り替える
 function switchPlayer() {
   // 駒が置けたらプレイヤーを切り替える
@@ -110,10 +114,10 @@ function canFlip(row, col) {
   const opponentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
   for (let i = 0; i < DIRECTIONS.length; i++) {
     const rowDIRECTION = DIRECTIONS[i][0];
-    const colDIRECTION = DIRECTIONS[i][1];
+    const colDirection = DIRECTIONS[i][1];
 
     let checkRow = row + rowDIRECTION;
-    let checkCol = col + colDIRECTION;
+    let checkCol = col + colDirection;
 
     if (
       checkRow < 0 ||
@@ -127,7 +131,7 @@ function canFlip(row, col) {
 
     //隣は相手の駒だったのでその先を調べる
     checkRow += rowDIRECTION;
-    checkCol += colDIRECTION;
+    checkCol += colDirection;
 
     while (
       checkRow >= 0 &&
@@ -142,22 +146,24 @@ function canFlip(row, col) {
         return true;
       }
       checkRow += rowDIRECTION;
-      checkCol += colDIRECTION;
+      checkCol += colDirection;
     }
   }
   return false;
 }
 
-function fripPieces(row, col) {
+function flipPieces(row, col) {
   const opponentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
 
   for (let i = 0; i < DIRECTIONS.length; i++) {
-    const rowDirection = DIRECTIONS[i][0];
+    const rowDIRECTION = DIRECTIONS[i][0];
     const colDirection = DIRECTIONS[i][1];
 
     const flipList = [];
 
-    let checkRow = row + rowDirection;
+    //ひっくりかえせるかどうかの変数
+    let canFlipDirection = false;
+    let checkRow = row + rowDIRECTION;
     let checkCol = col + colDirection;
     if (
       checkRow < 0 ||
@@ -170,8 +176,9 @@ function fripPieces(row, col) {
     }
 
     //隣は相手の駒だったのでその先を調べる
+    flipList.push([checkRow, checkCol]);
     checkRow += rowDIRECTION;
-    checkCol += colDIRECTION;
+    checkCol += colDirection;
 
     while (
       checkRow >= 0 &&
@@ -183,10 +190,19 @@ function fripPieces(row, col) {
         break;
       }
       if (boardData[checkRow][checkCol] === currentPlayer) {
-        return true;
+        canFlipDirection = true;
+        break;
       }
+      flipList.push([checkRow, checkCol]);
       checkRow += rowDIRECTION;
-      checkCol += colDIRECTION;
+      checkCol += colDirection;
+    }
+
+    //trueだったらデータとして書き換える
+    if (canFlipDirection) {
+      for (let j = 0; j < flipList.length; j++) {
+        boardData[flipList[j][0]][flipList[j][1]] = currentPlayer;
+      }
     }
   }
 }
