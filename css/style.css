@@ -1,7 +1,7 @@
 #board {
     display: grid;
-    grid-template-columns: repeat(8, 50px);/*8マス*/
-    grid-template-rows: repeat(8, 50px);
+    grid-template-columns: repeat(6, 50px);/*8マス*/
+    grid-template-rows: repeat(6, 50px);
 }
 /* マス */
 .cell {

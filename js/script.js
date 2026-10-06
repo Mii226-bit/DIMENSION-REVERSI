@@ -1,7 +1,7 @@
 const EMPTY = 0;
 const BLACK = 1;
 const WHITE = 2;
-const BOARD_SIZE = 8;
+const BOARD_SIZE = 6;
 const boardData = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -12,10 +12,7 @@ const boardData = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
 ];
-boardData[3][3] = WHITE;
-boardData[3][4] = BLACK;
-boardData[4][3] = BLACK;
-boardData[4][4] = WHITE;
+
 const DIRECTIONS = [
   [0, -1], //左
   [-1, -1], //左上
@@ -27,11 +24,14 @@ const DIRECTIONS = [
   [1, -1], //左下
 ];
 
+let gameOver = false;
 let currentPlayer = BLACK;
-// let gameOver = false;
+
 // 盤面の要素を取得
 const board = document.getElementById("board");
+const reset = document.getElementById("reset");
 
+// 盤面のセルを作成
 for (let row = 0; row < BOARD_SIZE; row++) {
   for (let col = 0; col < BOARD_SIZE; col++) {
     const cell = document.createElement("div");
@@ -47,8 +47,18 @@ for (let row = 0; row < BOARD_SIZE; row++) {
     board.appendChild(cell);
   }
 }
+
+//リセットボタンのクリックイベント
+reset.addEventListener("click", () => {
+  resetGame();
+});
+
 //クリック処理
 function cellClick(row, col) {
+  if (gameOver) {
+    return;
+  }
+
   console.log(`Clicked cell at row ${row}, col ${col}`);
 
   if (!canFlip(row, col)) {
@@ -68,6 +78,8 @@ function cellClick(row, col) {
 
   const result = countPieces();
 
+  switchPlayer();
+
   console.log(
     "黒の枚数：" + result.blackCount + "\n白の枚数：" + result.whiteCount,
   );
@@ -79,8 +91,6 @@ function cellClick(row, col) {
       result.whiteCount,
   );
 
-  switchPlayer();
-
   if (!hasValidMove()) {
     switchPlayer();
 
@@ -88,6 +98,7 @@ function cellClick(row, col) {
       alert("おわり！");
       endGame();
       console.log("終了");
+      return;
     } else {
       alert("置ける場所がありません！パス！");
       console.log("パス");
@@ -275,6 +286,7 @@ function countPieces() {
 
 //ゲームの勝敗判定
 function endGame() {
+  gameOver = true;
   const result = countPieces();
 
   if (result.blackCount === result.whiteCount) {
@@ -289,5 +301,22 @@ function endGame() {
   );
 }
 
+//ゲームリセット
+function resetGame() {
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      boardData[row][col] = EMPTY;
+    }
+  }
+  boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2 - 1] = WHITE;
+  boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2] = BLACK;
+  boardData[BOARD_SIZE / 2][BOARD_SIZE / 2 - 1] = BLACK;
+  boardData[BOARD_SIZE / 2][BOARD_SIZE / 2] = WHITE;
+
+  gameOver = false;
+  currentPlayer = BLACK;
+  renderBoard();
+}
+
 //初期状態の盤面を描画
-renderBoard();
+resetGame();
