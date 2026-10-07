@@ -8,11 +8,15 @@
     width: 50px;
     height: 50px;
     border: 1px solid black;
-    background-color: green;
+    background-color:  #14823b;
 
+    /* 駒を中央に配置するためのスタイル */
     display: flex;
     justify-content: center;
     align-items: center;
+
+    /* このマスを基準に黄色を付与 */
+    position: relative;
 }
 
 /* 駒 */
@@ -27,4 +31,26 @@
 
 .white {
   background-color: white;
+}
+
+.valid-move {
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.15);
+}
+
+/* 置ける場所アシスト */
+.valid-move::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.45);
+
+  /* cellを基準にしてますよ */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* クリック判定除去 */
+  pointer-events: none; 
 }

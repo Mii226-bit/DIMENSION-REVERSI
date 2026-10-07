@@ -29,7 +29,7 @@ let currentPlayer = BLACK;
 
 // 盤面の要素を取得
 const board = document.getElementById("board");
-const reset = document.getElementById("reset");
+const resetButton = document.getElementById("resetButton");
 
 // 盤面のセルを作成
 for (let row = 0; row < BOARD_SIZE; row++) {
@@ -49,7 +49,7 @@ for (let row = 0; row < BOARD_SIZE; row++) {
 }
 
 //リセットボタンのクリックイベント
-reset.addEventListener("click", () => {
+resetButton.addEventListener("click", () => {
   resetGame();
 });
 
@@ -59,11 +59,11 @@ function cellClick(row, col) {
     return;
   }
 
-  console.log(`Clicked cell at row ${row}, col ${col}`);
+  // console.log(`Clicked cell at row ${row}, col ${col}`);
 
   if (!canFlip(row, col)) {
     alert("そこには置けないにょ～ん（笑）\n画面ちゃんと見てね\nぷ\nぷ\nぷ");
-    console.log("置けません");
+    console.log(`置けません(${row},${col})`);
     return;
   }
 
@@ -80,6 +80,24 @@ function cellClick(row, col) {
 
   switchPlayer();
 
+  if (!hasValidMove()) {
+    switchPlayer();
+
+    if (!hasValidMove()) {
+      alert("おわり！");
+      console.log("終了");
+
+      showValidMoves();
+      endGame();
+
+      return;
+    }
+    alert(
+      `${currentPlayer === BLACK ? "白" : "黒"}は置ける場所がありません！パス！`,
+    );
+    console.log(currentPlayer === BLACK ? "白" : "黒" + "パス");
+  }
+
   console.log(
     "黒の枚数：" + result.blackCount + "\n白の枚数：" + result.whiteCount,
   );
@@ -91,19 +109,8 @@ function cellClick(row, col) {
       result.whiteCount,
   );
 
-  if (!hasValidMove()) {
-    switchPlayer();
-
-    if (!hasValidMove()) {
-      alert("おわり！");
-      endGame();
-      console.log("終了");
-      return;
-    } else {
-      alert("置ける場所がありません！パス！");
-      console.log("パス");
-    }
-  }
+  //おける場所表示
+  showValidMoves();
 }
 
 //プレイヤーを切り替える
@@ -316,6 +323,24 @@ function resetGame() {
   gameOver = false;
   currentPlayer = BLACK;
   renderBoard();
+
+  //おける場所表示
+  showValidMoves();
+}
+
+//おけるマスを表示する
+function showValidMoves() {
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      const cell = document.querySelector(
+        `.cell[data-row="${row}"][data-col="${col}"]`,
+      );
+      cell.classList.remove("valid-move");
+      if (canFlip(row, col)) {
+        cell.classList.add("valid-move");
+      }
+    }
+  }
 }
 
 //初期状態の盤面を描画
