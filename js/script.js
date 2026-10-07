@@ -1,7 +1,7 @@
 const EMPTY = 0;
 const BLACK = 1;
 const WHITE = 2;
-const BOARD_SIZE = 6;
+const BOARD_SIZE = 8;
 const boardData = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
