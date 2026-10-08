@@ -72,3 +72,7 @@
 
   margin: 0 auto 10px;
 }
+
+#game-message {
+  white-space: pre-line;
+}

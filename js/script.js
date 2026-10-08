@@ -3,7 +3,7 @@
 const EMPTY = 0;
 const BLACK = 1;
 const WHITE = 2;
-const BOARD_SIZE = 4;
+const BOARD_SIZE = 8;
 
 //==== ゲームデータ ====
 
@@ -36,6 +36,7 @@ const resetButton = document.getElementById("resetButton");
 const blackCountText = document.getElementById("black-count");
 const turnInfoText = document.getElementById("turn-info");
 const whiteCountText = document.getElementById("white-count");
+const gameMessageText = document.getElementById("game-message");
 
 //==== 初期設定 ====
 
@@ -73,10 +74,13 @@ function cellClick(row, col) {
     return;
   }
 
+  gameMessageText.textContent = "";
+
   // console.log(`Clicked cell at row ${row}, col ${col}`);
 
   if (!canFlip(row, col)) {
-    alert("そこには置けないにょ～ん（笑）\n画面ちゃんと見てね\nぷ\nぷ\nぷ");
+    gameMessageText.textContent =
+      "そこには置けないにょ～ん（笑）\n画面ちゃんと見てね\nぷ\nぷ\nぷ";
     console.log(`置けません(${row},${col})`);
     return;
   }
@@ -96,9 +100,6 @@ function cellClick(row, col) {
     switchPlayer();
 
     if (!hasValidMove()) {
-      alert("おわり！");
-      console.log("終了");
-
       updateGameInfo();
 
       showValidMoves();
@@ -107,9 +108,8 @@ function cellClick(row, col) {
 
       return;
     }
-    alert(
-      `${currentPlayer === BLACK ? "白" : "黒"}は置ける場所がありません！パス！`,
-    );
+
+    gameMessageText.textContent = `${currentPlayer === BLACK ? "白" : "黒"}は置ける場所がありません！パス！`;
     console.log("パス");
   }
 
@@ -133,6 +133,7 @@ function switchPlayer() {
 
 //ゲームリセット
 function resetGame() {
+  gameMessageText.textContent = "";
   for (let row = 0; row < BOARD_SIZE; row++) {
     for (let col = 0; col < BOARD_SIZE; col++) {
       boardData[row][col] = EMPTY;
@@ -159,11 +160,16 @@ function endGame() {
   gameOver = true;
   const result = countPieces();
 
+  turnInfoText.textContent = "ゲーム終了！";
+
   if (result.blackCount === result.whiteCount) {
+    gameMessageText.textContent = "引き分け！";
     console.log("引き分け");
   } else if (result.blackCount > result.whiteCount) {
+    gameMessageText.textContent = "黒　WIN!";
     console.log("黒の勝ち！");
   } else {
+    gameMessageText.textContent = "白　WIN!";
     console.log("白の勝ち！");
   }
   console.log(
@@ -309,7 +315,7 @@ function countPieces() {
 
 //==== 画面表示系 ====
 
-//画面を描写
+//画面を描画
 function renderBoard() {
   //cells:マス目の要素を取得してvalueに格納
   const cells = document.querySelectorAll(".cell");
