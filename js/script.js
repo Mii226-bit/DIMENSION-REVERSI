@@ -1,18 +1,16 @@
+//==== 定数 ====
+
 const EMPTY = 0;
 const BLACK = 1;
 const WHITE = 2;
-const BOARD_SIZE = 8;
-const boardData = [
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-];
+const BOARD_SIZE = 4;
 
+//==== ゲームデータ ====
+
+//BOARD_SIZEの大きさだけ配列作成
+const boardData = Array.from({ length: BOARD_SIZE }, () =>
+  Array(BOARD_SIZE).fill(EMPTY),
+);
 const DIRECTIONS = [
   [0, -1], //左
   [-1, -1], //左上
@@ -24,14 +22,28 @@ const DIRECTIONS = [
   [1, -1], //左下
 ];
 
+//==== 状態を表す変数 ====
+
 let gameOver = false;
 let currentPlayer = BLACK;
+
+//==== HTML要素の取得 ====
 
 // 盤面の要素を取得
 const board = document.getElementById("board");
 const resetButton = document.getElementById("resetButton");
+//ゲーム情報
+const blackCountText = document.getElementById("black-count");
+const turnInfoText = document.getElementById("turn-info");
+const whiteCountText = document.getElementById("white-count");
 
-// 盤面のセルを作成
+//==== 初期設定 ====
+
+board.style.gridTemplateColumns = `repeat(${BOARD_SIZE}, 1fr)`;
+board.style.gridTemplateRows = `repeat(${BOARD_SIZE}, 1fr)`;
+
+//==== HTMLの作成,イベント登録 ====
+
 for (let row = 0; row < BOARD_SIZE; row++) {
   for (let col = 0; col < BOARD_SIZE; col++) {
     const cell = document.createElement("div");
@@ -52,6 +64,8 @@ for (let row = 0; row < BOARD_SIZE; row++) {
 resetButton.addEventListener("click", () => {
   resetGame();
 });
+
+//==== ゲーム進行に関する関数 ====
 
 //クリック処理
 function cellClick(row, col) {
@@ -76,8 +90,6 @@ function cellClick(row, col) {
 
   renderBoard();
 
-  const result = countPieces();
-
   switchPlayer();
 
   if (!hasValidMove()) {
@@ -87,7 +99,10 @@ function cellClick(row, col) {
       alert("おわり！");
       console.log("終了");
 
+      updateGameInfo();
+
       showValidMoves();
+
       endGame();
 
       return;
@@ -95,19 +110,10 @@ function cellClick(row, col) {
     alert(
       `${currentPlayer === BLACK ? "白" : "黒"}は置ける場所がありません！パス！`,
     );
-    console.log(currentPlayer === BLACK ? "白" : "黒" + "パス");
+    console.log("パス");
   }
 
-  console.log(
-    "黒の枚数：" + result.blackCount + "\n白の枚数：" + result.whiteCount,
-  );
-  alert(
-    `${currentPlayer === BLACK ? "黒" : "白"}のターンですわよ` +
-      "\n黒の枚数：" +
-      result.blackCount +
-      "\n白の枚数：" +
-      result.whiteCount,
-  );
+  updateGameInfo();
 
   //おける場所表示
   showValidMoves();
@@ -125,37 +131,47 @@ function switchPlayer() {
   console.log(`${currentPlayer === BLACK ? "黒" : "白"}のターン！`);
 }
 
-//画面描写
-function renderBoard() {
-  //cells:マス目の要素を取得してvalueに格納
-  const cells = document.querySelectorAll(".cell");
-
-  cells.forEach((cell) => {
-    const row = parseInt(cell.dataset.row);
-    const col = parseInt(cell.dataset.col);
-
-    const value = boardData[row][col];
-
-    //前の色を消す
-    cell.innerHTML = "";
-
-    if (value === EMPTY) {
-      return;
+//ゲームリセット
+function resetGame() {
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      boardData[row][col] = EMPTY;
     }
+  }
+  boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2 - 1] = WHITE;
+  boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2] = BLACK;
+  boardData[BOARD_SIZE / 2][BOARD_SIZE / 2 - 1] = BLACK;
+  boardData[BOARD_SIZE / 2][BOARD_SIZE / 2] = WHITE;
 
-    //piece=駒 を作る
-    const piece = document.createElement("div");
-    piece.classList.add("piece");
+  gameOver = false;
+  currentPlayer = BLACK;
 
-    if (value === BLACK) {
-      piece.classList.add("black");
-    }
-    if (value === WHITE) {
-      piece.classList.add("white");
-    }
-    cell.appendChild(piece);
-  });
+  renderBoard();
+
+  updateGameInfo();
+
+  //おける場所表示
+  showValidMoves();
 }
+
+//ゲームの勝敗判定
+function endGame() {
+  gameOver = true;
+  const result = countPieces();
+
+  if (result.blackCount === result.whiteCount) {
+    console.log("引き分け");
+  } else if (result.blackCount > result.whiteCount) {
+    console.log("黒の勝ち！");
+  } else {
+    console.log("白の勝ち！");
+  }
+  console.log(
+    "\n黒：" + result.blackCount + "枚\n白：" + result.whiteCount + "枚",
+  );
+}
+
+//==== ルール判定・計算系 ====
 
 //ひっくり返せるかどうか:返り値boolean
 function canFlip(row, col) {
@@ -291,41 +307,38 @@ function countPieces() {
   };
 }
 
-//ゲームの勝敗判定
-function endGame() {
-  gameOver = true;
-  const result = countPieces();
+//==== 画面表示系 ====
 
-  if (result.blackCount === result.whiteCount) {
-    console.log("引き分け");
-  } else if (result.blackCount > result.whiteCount) {
-    console.log("黒の勝ち！");
-  } else {
-    console.log("白の勝ち！");
-  }
-  console.log(
-    "\n黒：" + result.blackCount + "枚\n白：" + result.whiteCount + "枚",
-  );
-}
+//画面を描写
+function renderBoard() {
+  //cells:マス目の要素を取得してvalueに格納
+  const cells = document.querySelectorAll(".cell");
 
-//ゲームリセット
-function resetGame() {
-  for (let row = 0; row < BOARD_SIZE; row++) {
-    for (let col = 0; col < BOARD_SIZE; col++) {
-      boardData[row][col] = EMPTY;
+  cells.forEach((cell) => {
+    const row = parseInt(cell.dataset.row);
+    const col = parseInt(cell.dataset.col);
+
+    const value = boardData[row][col];
+
+    //前の色を消す
+    cell.innerHTML = "";
+
+    if (value === EMPTY) {
+      return;
     }
-  }
-  boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2 - 1] = WHITE;
-  boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2] = BLACK;
-  boardData[BOARD_SIZE / 2][BOARD_SIZE / 2 - 1] = BLACK;
-  boardData[BOARD_SIZE / 2][BOARD_SIZE / 2] = WHITE;
 
-  gameOver = false;
-  currentPlayer = BLACK;
-  renderBoard();
+    //piece=駒 を作る
+    const piece = document.createElement("div");
+    piece.classList.add("piece");
 
-  //おける場所表示
-  showValidMoves();
+    if (value === BLACK) {
+      piece.classList.add("black");
+    }
+    if (value === WHITE) {
+      piece.classList.add("white");
+    }
+    cell.appendChild(piece);
+  });
 }
 
 //おけるマスを表示する
@@ -341,6 +354,20 @@ function showValidMoves() {
       }
     }
   }
+}
+
+//ゲーム情報の更新
+function updateGameInfo() {
+  const result = countPieces();
+
+  blackCountText.textContent = `黒：${result.blackCount}枚`;
+  whiteCountText.textContent = `白：${result.whiteCount}枚`;
+
+  turnInfoText.textContent = `今のターン：${currentPlayer === BLACK ? "黒" : "白"}`;
+
+  console.log(
+    "黒の枚数：" + result.blackCount + "\n白の枚数：" + result.whiteCount,
+  );
 }
 
 //初期状態の盤面を描画
