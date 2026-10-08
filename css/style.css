@@ -1,20 +1,68 @@
+body {
+  margin: 0;
+
+  /* 縦方向に並べるよ */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  min-height: 100vh;
+}
+
+h1 {
+  margin: 1.5rem 0;
+  font-size: clamp(1.8rem, 6vw, 2.5rem);
+}
+
+.game-info {
+  /* 横ならべ */
+  display: flex;
+  /* 画面いっぱい */
+  justify-content: space-between;
+  /* 高さをそろえる */
+  align-items: center;
+
+  width: 90vw;
+  max-width: 500px;
+
+  margin: 0 auto 1rem;
+}
+
+#turn-info {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+#game-message {
+  white-space: pre-line;
+
+  min-height: 4em;
+  margin: 0 0 1rem;
+}
+
+@media (min-width: 768px) {
+  #game-message {
+    min-height: 2em;
+  }
+}
+
 #board {
   display: grid;
 
   width: 90vw;
   max-width: 500px;
+  /* height: 90vw;
+  max-height: 500px; */
   aspect-ratio: 1/1;
 
-  gap: 1px;
+  gap: 1.2px;
   background-color: black;
-
-  margin: 0 auto;
 }
 /* マス */
 .cell {
   background-color: #14823b;
 
-  /* 駒を中央にbor配置するためのスタイル */
+  /* 駒を中央に配置するためのスタイル */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,6 +87,7 @@
 
 .valid-move {
   box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.15);
+  /* cursor: pointer; */
 }
 
 /* 置ける場所アシスト */
@@ -59,20 +108,14 @@
   pointer-events: none;
 }
 
-.game-info {
-  /* 横ならべ */
-  display: flex;
-  /* 画面いっぱい */
-  justify-content: space-between;
-  /* 高さをそろえる */
-  align-items: center;
+#resetButton {
+  margin-top: 1rem;
+  padding: 0.7em 1.4em;
 
-  width: 90vw;
-  max-width: 500px;
+  font-size: 1rem;
 
-  margin: 0 auto 10px;
-}
+  border: none;
+  border-radius: 0.5em;
 
-#game-message {
-  white-space: pre-line;
+  cursor: pointer;
 }

@@ -3,7 +3,7 @@
 const EMPTY = 0;
 const BLACK = 1;
 const WHITE = 2;
-const BOARD_SIZE = 8;
+const BOARD_SIZE = 6;
 
 //==== ゲームデータ ====
 
@@ -76,17 +76,13 @@ function cellClick(row, col) {
 
   gameMessageText.textContent = "";
 
-  // console.log(`Clicked cell at row ${row}, col ${col}`);
-
   if (!canFlip(row, col)) {
     gameMessageText.textContent =
-      "そこには置けないにょ～ん（笑）\n画面ちゃんと見てね\nぷ\nぷ\nぷ";
+      "そこには置けないにょ～ん（笑）\n画面ちゃんと見てね\nぷぷぷ";
     console.log(`置けません(${row},${col})`);
     return;
   }
 
-  // alert("おけるわよ\nうおお");
-  //クリックした場所に駒を置く
   boardData[row][col] = currentPlayer;
 
   //置いた駒に対応してひっくり返す
