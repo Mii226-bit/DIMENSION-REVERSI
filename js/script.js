@@ -3,7 +3,7 @@
 const EMPTY = 0;
 const BLACK = 1;
 const WHITE = 2;
-const BOARD_SIZE = 6;
+const BOARD_SIZE = 8;
 
 //==== ゲームデータ ====
 
@@ -130,6 +130,8 @@ function switchPlayer() {
 //ゲームリセット
 function resetGame() {
   gameMessageText.textContent = "";
+  gameMessageText.classList.remove("result-message");
+
   for (let row = 0; row < BOARD_SIZE; row++) {
     for (let col = 0; col < BOARD_SIZE; col++) {
       boardData[row][col] = EMPTY;
@@ -155,6 +157,8 @@ function resetGame() {
 function endGame() {
   gameOver = true;
   const result = countPieces();
+
+  gameMessageText.classList.add("result-message");
 
   turnInfoText.textContent = "ゲーム終了！";
 
