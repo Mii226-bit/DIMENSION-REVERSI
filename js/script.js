@@ -89,7 +89,7 @@ function cellClick(row, col) {
 
   if (!canFlip(row, col)) {
     gameMessageText.textContent =
-      "そこには置けないにょ～ん（笑）\n画面ちゃんと見てね\nぷぷぷ";
+      "そこには置けないにょ～ん（笑）\n画面ちゃんと見てね";
     console.log(`置けません(${row},${col})`);
     return;
   }
