@@ -3,9 +3,18 @@
 const EMPTY = 0;
 const BLACK = 1;
 const WHITE = 2;
-const BOARD_SIZE = 8;
+const BOARD_SIZE = 6;
 
 //==== ゲームデータ ====
+
+const CARDS = {
+  DIMENSION_INVASION: {
+    id: "dimension_invasion",
+    name: "次元の浸食",
+    type: "attack",
+    description: "相手の駒を一枚選択、それを自分の色に変える",
+  },
+};
 
 //BOARD_SIZEの大きさだけ配列作成
 const boardData = Array.from({ length: BOARD_SIZE }, () =>
@@ -26,17 +35,19 @@ const DIRECTIONS = [
 
 let gameOver = false;
 let currentPlayer = BLACK;
+let selectedCard = null;
 
 //==== HTML要素の取得 ====
 
-// 盤面の要素を取得
-const board = document.getElementById("board");
-const resetButton = document.getElementById("resetButton");
 //ゲーム情報
 const blackCountText = document.getElementById("black-count");
 const turnInfoText = document.getElementById("turn-info");
 const whiteCountText = document.getElementById("white-count");
 const gameMessageText = document.getElementById("game-message");
+// 盤面の要素を取得
+const board = document.getElementById("board");
+const cardHand = document.getElementById("card-hand");
+const resetButton = document.getElementById("resetButton");
 
 //==== 初期設定 ====
 
@@ -376,5 +387,21 @@ function updateGameInfo() {
   );
 }
 
+//カードの描画
+function renderCards() {
+  cardHand.innerHTML = "";
+
+  for (let i = 0; i < 7; i++) {
+    const card = document.createElement("div");
+    card.classList.add("card");
+
+    card.textContent = CARDS.DIMENSION_INVASION.name;
+
+    cardHand.appendChild(card);
+  }
+}
+
 //初期状態の盤面を描画
 resetGame();
+
+renderCards();

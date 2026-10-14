@@ -10,7 +10,7 @@ body {
 }
 
 h1 {
-  margin: 1.5rem 0;
+  margin: 1rem 0 0;
   font-size: clamp(1.8rem, 6vw, 2.5rem);
 }
 
@@ -111,6 +111,73 @@ h1 {
   pointer-events: none;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .valid-move {
+    cursor: pointer;
+  }
+}
+
+/* 手札エリア */
+#card-hand {
+  display: flex;
+  gap: 0.8rem;
+
+  width: 90vw;
+  max-width: 500px;
+
+  overflow-x: auto;
+  padding: 1rem 0.5rem;
+
+  /* 箱全体の大きさの設定 */
+  box-sizing: border-box;
+
+  scroll-snap-type: x proximity;
+}
+
+.card {
+  flex: 0 0 6rem;
+
+  aspect-ratio: 3/4;
+
+  /* 見た目 */
+  background: linear-gradient(135deg, #51328c, #24143f);
+  border: 2px solid #a78bfa;
+  border-radius: 0.7rem;
+  color: white;
+
+  /* 文字の配置 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  padding: 0.5rem;
+  box-sizing: border-box;
+
+  font-size: 0.85rem;
+  font-weight: bold;
+
+  /* スクロール時の位置合わせ */
+  scroll-snap-align: start;
+
+  /* アニメーション */
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* マウス操作できる環境 */
+@media (hover: hover) and (pointer: fine) {
+  .card {
+    cursor: pointer;
+  }
+
+  .card:hover {
+    transform: translateY(-0.3rem);
+    box-shadow: 0 0.4rem 1rem rgba(167, 139, 250, 0.4);
+  }
+}
+
 #resetButton {
   margin-top: 1rem;
   padding: 0.7em 1.4em;
@@ -121,10 +188,4 @@ h1 {
   border-radius: 0.5em;
 
   cursor: pointer;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .valid-move {
-    cursor: pointer;
-  }
 }
