@@ -31,6 +31,33 @@ const CARDS = {
     icon: "✧",
     description: "テスト用カード",
   },
+  TEST_04: {
+    name: "test04",
+  },
+  TEST_05: {
+    name: "test05",
+  },
+  TEST_06: {
+    name: "test06",
+  },
+  TEST_07: {
+    name: "test07",
+  },
+  TEST_08: {
+    name: "test08",
+  },
+  TEST_9: {
+    name: "test09",
+  },
+  TEST_10: {
+    name: "test10",
+  },
+  TEST_11: {
+    name: "test11",
+  },
+  TEST_12: {
+    name: "test12",
+  },
 };
 
 const CARD_LIST = Object.values(CARDS);
@@ -96,6 +123,18 @@ for (let row = 0; row < BOARD_SIZE; row++) {
 //リセットボタンのクリックイベント
 resetButton.addEventListener("click", () => {
   resetGame();
+});
+
+//カード外クリック処理
+document.addEventListener("click", (event) => {
+  if (event.target.closest(".card")) {
+    return;
+  }
+
+  if (selectedCard !== null) {
+    selectedCard = null;
+    renderCards();
+  }
 });
 
 //==== ゲーム進行に関する関数 ====
@@ -427,8 +466,16 @@ function renderCards() {
 }
 
 function selectCard(index) {
-  selectedCard = index;
-  renderCards();
+  if (selectedCard === index) {
+    useCard(index);
+  } else {
+    selectedCard = index;
+    renderCards();
+  }
+}
+
+function useCard(index) {
+  console.log(`${playerHand[index].name}を使用しました`);
 }
 
 //カードをハンドに追加（今は固定のカードのみ）
