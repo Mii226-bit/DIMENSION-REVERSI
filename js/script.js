@@ -4,6 +4,8 @@ const EMPTY = 0;
 const BLACK = 1;
 const WHITE = 2;
 const BOARD_SIZE = 6;
+const MAX_HAND_SIZE = 7;
+const INITIAL_HAND_SIZE = 3;
 
 //==== ゲームデータ ====
 
@@ -12,9 +14,12 @@ const CARDS = {
     id: "dimension_invasion",
     name: "次元の浸食",
     type: "attack",
+    icon: "✦",
     description: "相手の駒を一枚選択、それを自分の色に変える",
   },
 };
+
+let playerHand = [];
 
 //BOARD_SIZEの大きさだけ配列作成
 const boardData = Array.from({ length: BOARD_SIZE }, () =>
@@ -99,20 +104,15 @@ function cellClick(row, col) {
   //置いた駒に対応してひっくり返す
   flipPieces(row, col);
 
-  renderBoard();
-
   switchPlayer();
 
   if (!hasValidMove()) {
     switchPlayer();
 
     if (!hasValidMove()) {
+      renderBoard();
       updateGameInfo();
-
-      showValidMoves();
-
       endGame();
-
       return;
     }
 
@@ -120,10 +120,8 @@ function cellClick(row, col) {
     console.log("パス");
   }
 
+  renderBoard();
   updateGameInfo();
-
-  //おける場所表示
-  showValidMoves();
 }
 
 //プレイヤーを切り替える
@@ -136,6 +134,11 @@ function switchPlayer() {
   }
   // alert(`${currentPlayer === BLACK ? "黒" : "白"}のターンですわよ`);
   console.log(`${currentPlayer === BLACK ? "黒" : "白"}のターン！`);
+
+  //もし置くならcellClickになりますか？
+  if (currentPlayer === BLACK) {
+    drawCard();
+  }
 }
 
 //ゲームリセット
@@ -155,13 +158,13 @@ function resetGame() {
 
   gameOver = false;
   currentPlayer = BLACK;
+  selectedCard = null;
+
+  initializeHand();
 
   renderBoard();
 
   updateGameInfo();
-
-  //おける場所表示
-  showValidMoves();
 }
 
 //ゲームの勝敗判定
@@ -356,6 +359,7 @@ function renderBoard() {
     }
     cell.appendChild(piece);
   });
+  showValidMoves();
 }
 
 //おけるマスを表示する
@@ -387,21 +391,42 @@ function updateGameInfo() {
   );
 }
 
-//カードの描画
+//==== カード関連の処理 ====
+
+//カード描画
 function renderCards() {
   cardHand.innerHTML = "";
 
-  for (let i = 0; i < 7; i++) {
+  playerHand.forEach((cardData) => {
     const card = document.createElement("div");
     card.classList.add("card");
 
-    card.textContent = CARDS.DIMENSION_INVASION.name;
+    card.textContent = cardData.name;
 
     cardHand.appendChild(card);
+  });
+}
+
+//カードをハンドに追加（今は固定のカードのみ）
+function drawCard(count = 1) {
+  for (let i = 0; i < count; i++) {
+    if (playerHand.length >= MAX_HAND_SIZE) {
+      gameMessageText.textContent = "手札がいっぱいです！";
+      console.log("手札がいっぱいです！");
+      break;
+    }
+
+    //後から変更
+    playerHand.push(CARDS.DIMENSION_INVASION);
   }
+  renderCards();
+}
+
+//手札の初期化
+function initializeHand(count = INITIAL_HAND_SIZE) {
+  playerHand = [];
+  drawCard(count);
 }
 
 //初期状態の盤面を描画
 resetGame();
-
-renderCards();
