@@ -17,7 +17,23 @@ const CARDS = {
     icon: "✦",
     description: "相手の駒を一枚選択、それを自分の色に変える",
   },
+  DIMENSION_BARRIER: {
+    id: "dimension_barrier",
+    name: "次元の防壁",
+    type: "defense",
+    icon: "⬡",
+    description: "テスト用カード",
+  },
+  DIMENSION_REBIRTH: {
+    id: "dimension_rebirth",
+    name: "次元の再生",
+    type: "support",
+    icon: "✧",
+    description: "テスト用カード",
+  },
 };
+
+const CARD_LIST = Object.values(CARDS);
 
 let playerHand = [];
 
@@ -111,7 +127,6 @@ function cellClick(row, col) {
 
     if (!hasValidMove()) {
       renderBoard();
-      updateGameInfo();
       endGame();
       return;
     }
@@ -119,9 +134,7 @@ function cellClick(row, col) {
     gameMessageText.textContent = `${currentPlayer === BLACK ? "白" : "黒"}は置ける場所がありません！パス！`;
     console.log("パス");
   }
-
   renderBoard();
-  updateGameInfo();
 }
 
 //プレイヤーを切り替える
@@ -161,10 +174,7 @@ function resetGame() {
   selectedCard = null;
 
   initializeHand();
-
   renderBoard();
-
-  updateGameInfo();
 }
 
 //ゲームの勝敗判定
@@ -360,6 +370,7 @@ function renderBoard() {
     cell.appendChild(piece);
   });
   showValidMoves();
+  updateGameInfo();
 }
 
 //おけるマスを表示する
@@ -397,14 +408,27 @@ function updateGameInfo() {
 function renderCards() {
   cardHand.innerHTML = "";
 
-  playerHand.forEach((cardData) => {
+  playerHand.forEach((cardData, index) => {
     const card = document.createElement("div");
     card.classList.add("card");
 
     card.textContent = cardData.name;
 
+    if (selectedCard === index) {
+      card.classList.add("selected");
+    }
+
+    card.addEventListener("click", () => {
+      selectCard(index);
+    });
+
     cardHand.appendChild(card);
   });
+}
+
+function selectCard(index) {
+  selectedCard = index;
+  renderCards();
 }
 
 //カードをハンドに追加（今は固定のカードのみ）
@@ -416,8 +440,8 @@ function drawCard(count = 1) {
       break;
     }
 
-    //後から変更
-    playerHand.push(CARDS.DIMENSION_INVASION);
+    const randomIndex = Math.floor(Math.random() * CARD_LIST.length);
+    playerHand.push(CARD_LIST[randomIndex]);
   }
   renderCards();
 }

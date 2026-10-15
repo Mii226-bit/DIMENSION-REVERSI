@@ -177,6 +177,11 @@ h1 {
   }
 }
 
+.card.selected {
+  outline: 3px solid #ffd700;
+  outline-offset: -3px;
+}
+
 #resetButton {
   margin-top: 0.5rem;
   padding: 0.7em 1.4em;
