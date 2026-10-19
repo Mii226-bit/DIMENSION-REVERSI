@@ -12,51 +12,54 @@ const INITIAL_HAND_SIZE = 3;
 const CARDS = {
   DIMENSION_INVASION: {
     id: "dimension_invasion",
-    name: "次元の浸食",
+    name: "カード01",
+    // name: "次元の浸食",
     type: "attack",
     icon: "✦",
     description: "相手の駒を一枚選択、それを自分の色に変える",
   },
   DIMENSION_BARRIER: {
     id: "dimension_barrier",
-    name: "次元の防壁",
+    name: "カード02",
+    // name: "次元の防壁",
     type: "defense",
     icon: "⬡",
     description: "テスト用カード",
   },
   DIMENSION_REBIRTH: {
     id: "dimension_rebirth",
-    name: "次元の再生",
+    name: "カード03",
+    // name: "次元の再生",
     type: "support",
     icon: "✧",
     description: "テスト用カード",
   },
   TEST_04: {
-    name: "test04",
+    name: "カード04",
   },
   TEST_05: {
-    name: "test05",
+    name: "カード05",
   },
   TEST_06: {
-    name: "test06",
+    name: "カード06",
   },
   TEST_07: {
-    name: "test07",
+    name: "カード07",
   },
   TEST_08: {
-    name: "test08",
+    name: "カード08",
   },
   TEST_9: {
-    name: "test09",
+    name: "カード09",
   },
   TEST_10: {
-    name: "test10",
+    name: "カード10",
   },
   TEST_11: {
-    name: "test11",
+    name: "カード11",
   },
   TEST_12: {
-    name: "test12",
+    name: "カード12",
   },
 };
 
@@ -133,7 +136,7 @@ document.addEventListener("click", (event) => {
 
   if (selectedCard !== null) {
     selectedCard = null;
-    renderCards();
+    updateCardSelection();
   }
 });
 
@@ -453,16 +456,14 @@ function renderCards() {
 
     card.textContent = cardData.name;
 
-    if (selectedCard === index) {
-      card.classList.add("selected");
-    }
-
     card.addEventListener("click", () => {
       selectCard(index);
     });
 
     cardHand.appendChild(card);
   });
+
+  updateCardSelection();
 }
 
 function selectCard(index) {
@@ -470,11 +471,20 @@ function selectCard(index) {
     useCard(index);
   } else {
     selectedCard = index;
-    renderCards();
+    updateCardSelection();
   }
 }
 
+function updateCardSelection() {
+  const cards = cardHand.querySelectorAll(".card");
+
+  cards.forEach((card, index) => {
+    card.classList.toggle("selected", selectedCard === index);
+  });
+}
+
 function useCard(index) {
+  gameMessageText.textContent = `${playerHand[index].name}を使用しました!`;
   console.log(`${playerHand[index].name}を使用しました`);
 }
 
@@ -482,13 +492,19 @@ function useCard(index) {
 function drawCard(count = 1) {
   for (let i = 0; i < count; i++) {
     if (playerHand.length >= MAX_HAND_SIZE) {
-      gameMessageText.textContent = "手札がいっぱいです！";
-      console.log("手札がいっぱいです！");
+      gameMessageText.textContent = `${currentPlayer === BLACK ? "黒" : "白"}は手札がいっぱいでした！`;
+      console.log(
+        `${currentPlayer === BLACK ? "黒" : "白"}は手札がいっぱいでした！`,
+      );
       break;
     }
 
     const randomIndex = Math.floor(Math.random() * CARD_LIST.length);
     playerHand.push(CARD_LIST[randomIndex]);
+    gameMessageText.textContent = `${currentPlayer === BLACK ? "黒" : "白"}は${CARD_LIST[randomIndex].name}を引きました!`;
+    console.log(
+      `${currentPlayer === BLACK ? "黒" : "白"}は${CARD_LIST[randomIndex].name}を引きました!`,
+    );
   }
   renderCards();
 }
