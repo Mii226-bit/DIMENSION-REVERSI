@@ -9,62 +9,6 @@ const INITIAL_HAND_SIZE = 3;
 
 //==== ゲームデータ ====
 
-const CARDS = {
-  DIMENSION_INVASION: {
-    id: "dimension_invasion",
-    name: "カード01",
-    // name: "次元の浸食",
-    type: "attack",
-    icon: "✦",
-    description: "相手の駒を一枚選択、それを自分の色に変える",
-  },
-  DIMENSION_BARRIER: {
-    id: "dimension_barrier",
-    name: "カード02",
-    // name: "次元の防壁",
-    type: "defense",
-    icon: "⬡",
-    description: "テスト用カード",
-  },
-  DIMENSION_REBIRTH: {
-    id: "dimension_rebirth",
-    name: "カード03",
-    // name: "次元の再生",
-    type: "support",
-    icon: "✧",
-    description: "テスト用カード",
-  },
-  TEST_04: {
-    name: "カード04",
-  },
-  TEST_05: {
-    name: "カード05",
-  },
-  TEST_06: {
-    name: "カード06",
-  },
-  TEST_07: {
-    name: "カード07",
-  },
-  TEST_08: {
-    name: "カード08",
-  },
-  TEST_9: {
-    name: "カード09",
-  },
-  TEST_10: {
-    name: "カード10",
-  },
-  TEST_11: {
-    name: "カード11",
-  },
-  TEST_12: {
-    name: "カード12",
-  },
-};
-
-const CARD_LIST = Object.values(CARDS);
-
 let playerHands = {
   [BLACK]: [],
   [WHITE]: [],
@@ -139,9 +83,10 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  if (selectedCard !== null) {
+  if (selectedCard !== null && !isSelectingTarget) {
     selectedCard = null;
     updateCardSelection();
+    gameMessageText.textContent = "";
   }
 });
 
@@ -451,164 +396,6 @@ function updateGameInfo() {
   console.log(
     "黒の枚数：" + result.blackCount + "\n白の枚数：" + result.whiteCount,
   );
-}
-
-//==== カード関連の処理 ====
-
-//ターン開始時ドロー、カード描画までしてくれてる
-function startTurn() {
-  hasUsedCard = false;
-  selectedCard = null;
-
-  drawCard();
-}
-
-//カード描画
-function renderCards() {
-  cardHand.innerHTML = "";
-
-  playerHands[currentPlayer].forEach((cardData, index) => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-
-    card.textContent = cardData.name;
-
-    card.addEventListener("click", () => {
-      selectCard(index);
-    });
-
-    cardHand.appendChild(card);
-  });
-
-  updateCardSelection();
-}
-
-function selectCard(index) {
-  if (selectedCard === index) {
-    useCard(index);
-  } else {
-    selectedCard = index;
-    updateCardSelection();
-  }
-}
-
-function selectTarget(row, col) {
-  const opponentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
-
-  // 相手の駒でなければ選択できない
-  if (boardData[row][col] !== opponentPlayer) {
-    gameMessageText.textContent = "相手の駒を選択してください！";
-    return;
-  }
-
-  // 相手の駒を自分の色に変更
-  boardData[row][col] = currentPlayer;
-
-  // カードを消費
-  consumeCard(selectedCard);
-
-  // 対象選択モードを終了
-  isSelectingTarget = false;
-
-  // 盤面を更新
-  renderBoard();
-
-  gameMessageText.textContent = "次元の浸食を発動しました！";
-}
-
-function consumeCard(index) {
-  const hand = playerHands[currentPlayer];
-
-  // 使用したカードを1枚削除
-  hand.splice(index, 1);
-
-  // カード使用済み
-  hasUsedCard = true;
-
-  // 選択解除
-  selectedCard = null;
-
-  renderCards();
-}
-function updateCardSelection() {
-  const cards = cardHand.querySelectorAll(".card");
-
-  cards.forEach((card, index) => {
-    card.classList.toggle("selected", selectedCard === index);
-  });
-}
-
-//カード使用、削除
-function useCard(index) {
-  if (gameOver) {
-    return;
-  }
-
-  if (hasUsedCard) {
-    gameMessageText.textContent = `このターンカードはもう使えません！`;
-    console.log(`このターンカードはもう使えません！`);
-    return;
-  }
-
-  const card = playerHands[currentPlayer][index];
-
-  switch (card.id) {
-    case "dimension_invasion":
-      isSelectingTarget = true;
-
-      gameMessageText.textContent = "相手の駒を選択してください！";
-      break;
-
-    default:
-      gameMessageText.textContent = "このカードの効果はまだ未実装です！";
-      break;
-  }
-
-  //   //カード使用済みにする
-  //   hasUsedCard = true;
-
-  //   //カード捨て
-  //   playerHands[currentPlayer].splice(index, 1);
-  //   selectedCard = null;
-  //   renderCards();
-
-  //   gameMessageText.textContent = `${card.name}を使用しました!`;
-  //   console.log(`${card.name}を使用しました`);
-}
-
-//カードをハンドに追加（今は固定のカードのみ）
-function drawCard(count = 1, player = currentPlayer) {
-  //あらかじめ持ってくる
-  const hand = playerHands[player];
-
-  for (let i = 0; i < count; i++) {
-    if (hand.length >= MAX_HAND_SIZE) {
-      gameMessageText.textContent = `${player === BLACK ? "黒" : "白"}は手札がいっぱいでした！`;
-      console.log(`${player === BLACK ? "黒" : "白"}は手札がいっぱいでした！`);
-      break;
-    }
-
-    const randomIndex = Math.floor(Math.random() * CARD_LIST.length);
-    hand.push(CARD_LIST[randomIndex]);
-
-    gameMessageText.textContent = `${player === BLACK ? "黒" : "白"}は${CARD_LIST[randomIndex].name}を引きました!`;
-    console.log(
-      `${player === BLACK ? "黒" : "白"}は${CARD_LIST[randomIndex].name}を引きました!`,
-    );
-  }
-  if (player === currentPlayer) {
-    renderCards();
-  }
-}
-
-//手札の初期化
-function initializeHand(count = INITIAL_HAND_SIZE) {
-  playerHands = {
-    [BLACK]: [],
-    [WHITE]: [],
-  };
-  drawCard(count, WHITE);
-  drawCard(count, BLACK);
 }
 
 //初期状態の盤面を描画
