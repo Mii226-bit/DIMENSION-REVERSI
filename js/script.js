@@ -65,7 +65,10 @@ const CARDS = {
 
 const CARD_LIST = Object.values(CARDS);
 
-let playerHand = [];
+let playerHands = {
+  [BLACK]: [],
+  [WHITE]: [],
+};
 
 //BOARD_SIZEの大きさだけ配列作成
 const boardData = Array.from({ length: BOARD_SIZE }, () =>
@@ -87,6 +90,7 @@ const DIRECTIONS = [
 let gameOver = false;
 let currentPlayer = BLACK;
 let selectedCard = null;
+let hasUsedCard = false;
 
 //==== HTML要素の取得 ====
 
@@ -176,6 +180,9 @@ function cellClick(row, col) {
     gameMessageText.textContent = `${currentPlayer === BLACK ? "白" : "黒"}は置ける場所がありません！パス！`;
     console.log("パス");
   }
+
+  startTurn();
+
   renderBoard();
 }
 
@@ -189,11 +196,6 @@ function switchPlayer() {
   }
   // alert(`${currentPlayer === BLACK ? "黒" : "白"}のターンですわよ`);
   console.log(`${currentPlayer === BLACK ? "黒" : "白"}のターン！`);
-
-  //もし置くならcellClickになりますか？
-  if (currentPlayer === BLACK) {
-    drawCard();
-  }
 }
 
 //ゲームリセット
@@ -213,9 +215,9 @@ function resetGame() {
 
   gameOver = false;
   currentPlayer = BLACK;
-  selectedCard = null;
 
   initializeHand();
+  startTurn();
   renderBoard();
 }
 
@@ -446,11 +448,19 @@ function updateGameInfo() {
 
 //==== カード関連の処理 ====
 
+//ターン開始時ドロー、カード描画までしてくれてる
+function startTurn() {
+  hasUsedCard = false;
+  selectedCard = null;
+
+  drawCard();
+}
+
 //カード描画
 function renderCards() {
   cardHand.innerHTML = "";
 
-  playerHand.forEach((cardData, index) => {
+  playerHands[currentPlayer].forEach((cardData, index) => {
     const card = document.createElement("div");
     card.classList.add("card");
 
@@ -483,36 +493,65 @@ function updateCardSelection() {
   });
 }
 
+//カード使用、削除
 function useCard(index) {
-  gameMessageText.textContent = `${playerHand[index].name}を使用しました!`;
-  console.log(`${playerHand[index].name}を使用しました`);
+  if (gameOver) {
+    return;
+  }
+
+  if (hasUsedCard) {
+    gameMessageText.textContent = `このターンカードはもう使えません！`;
+    console.log(`このターンカードはもう使えません！`);
+    return;
+  }
+
+  const card = playerHands[currentPlayer][index];
+
+  //カード使用済みにする
+  hasUsedCard = true;
+
+  //カード捨て
+  playerHands[currentPlayer].splice(index, 1);
+  selectedCard = null;
+  renderCards();
+
+  gameMessageText.textContent = `${card.name}を使用しました!`;
+  console.log(`${card.name}を使用しました`);
 }
 
 //カードをハンドに追加（今は固定のカードのみ）
-function drawCard(count = 1) {
+function drawCard(count = 1, player = currentPlayer) {
+  //あらかじめ持ってくる
+  const hand = playerHands[player];
+
   for (let i = 0; i < count; i++) {
-    if (playerHand.length >= MAX_HAND_SIZE) {
-      gameMessageText.textContent = `${currentPlayer === BLACK ? "黒" : "白"}は手札がいっぱいでした！`;
-      console.log(
-        `${currentPlayer === BLACK ? "黒" : "白"}は手札がいっぱいでした！`,
-      );
+    if (hand.length >= MAX_HAND_SIZE) {
+      gameMessageText.textContent = `${player === BLACK ? "黒" : "白"}は手札がいっぱいでした！`;
+      console.log(`${player === BLACK ? "黒" : "白"}は手札がいっぱいでした！`);
       break;
     }
 
     const randomIndex = Math.floor(Math.random() * CARD_LIST.length);
-    playerHand.push(CARD_LIST[randomIndex]);
-    gameMessageText.textContent = `${currentPlayer === BLACK ? "黒" : "白"}は${CARD_LIST[randomIndex].name}を引きました!`;
+    hand.push(CARD_LIST[randomIndex]);
+
+    gameMessageText.textContent = `${player === BLACK ? "黒" : "白"}は${CARD_LIST[randomIndex].name}を引きました!`;
     console.log(
-      `${currentPlayer === BLACK ? "黒" : "白"}は${CARD_LIST[randomIndex].name}を引きました!`,
+      `${player === BLACK ? "黒" : "白"}は${CARD_LIST[randomIndex].name}を引きました!`,
     );
   }
-  renderCards();
+  if (player === currentPlayer) {
+    renderCards();
+  }
 }
 
 //手札の初期化
 function initializeHand(count = INITIAL_HAND_SIZE) {
-  playerHand = [];
-  drawCard(count);
+  playerHands = {
+    [BLACK]: [],
+    [WHITE]: [],
+  };
+  drawCard(count, WHITE);
+  drawCard(count, BLACK);
 }
 
 //初期状態の盤面を描画
