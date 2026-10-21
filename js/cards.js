@@ -37,7 +37,11 @@ function selectCard(index) {
 
     const card = playerHands[currentPlayer][index];
 
-    gameMessageText.textContent = `${card.description}\nもう一度カードをクリックすると効果発動！`;
+    const message = hasUsedCard
+      ? "※このターンは既にカードを使用しました"
+      : "もう一度カードをクリックすると効果発動！";
+
+    gameMessageText.textContent = `${card.description}\n${message}`;
   }
 }
 
@@ -101,18 +105,29 @@ function useCard(index) {
 
   const card = playerHands[currentPlayer][index];
 
-  switch (card.id) {
-    case "dimension_invasion":
-      isSelectingTarget = true;
-
-      gameMessageText.textContent = "相手の駒を選択してください！";
-      break;
-
-    default:
-      gameMessageText.textContent = `${card.name}を使用しました!`;
-      console.log(`${card.name}を使用しました`);
-      break;
+  if (!card) {
+    return;
+    //なにこれ？
   }
+
+  const successMessage = card.messages.success;
+
+  consumeCard(index);
+
+  gameMessageText.textContent = successMessage;
+
+  //   switch (card.id) {
+  //     case "dimension_invasion":
+  //       isSelectingTarget = true;
+
+  //       gameMessageText.textContent = "相手の駒を選択してください！";
+  //       break;
+
+  //     default:
+  //       gameMessageText.textContent = `${card.name}を使用しました!`;
+  //       console.log(`${card.name}を使用しました`);
+  //       break;
+  //   }
 }
 
 //カードをハンドに追加（今は固定のカードのみ）
