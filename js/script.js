@@ -91,6 +91,7 @@ let gameOver = false;
 let currentPlayer = BLACK;
 let selectedCard = null;
 let hasUsedCard = false;
+let isSelectingTarget = false;
 
 //==== HTML要素の取得 ====
 
@@ -149,6 +150,12 @@ document.addEventListener("click", (event) => {
 //クリック処理
 function cellClick(row, col) {
   if (gameOver) {
+    return;
+  }
+
+  //カード効果で選択中
+  if (isSelectingTarget) {
+    selectTarget(row, col);
     return;
   }
 
@@ -485,6 +492,44 @@ function selectCard(index) {
   }
 }
 
+function selectTarget(row, col) {
+  const opponentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
+
+  // 相手の駒でなければ選択できない
+  if (boardData[row][col] !== opponentPlayer) {
+    gameMessageText.textContent = "相手の駒を選択してください！";
+    return;
+  }
+
+  // 相手の駒を自分の色に変更
+  boardData[row][col] = currentPlayer;
+
+  // カードを消費
+  consumeCard(selectedCard);
+
+  // 対象選択モードを終了
+  isSelectingTarget = false;
+
+  // 盤面を更新
+  renderBoard();
+
+  gameMessageText.textContent = "次元の浸食を発動しました！";
+}
+
+function consumeCard(index) {
+  const hand = playerHands[currentPlayer];
+
+  // 使用したカードを1枚削除
+  hand.splice(index, 1);
+
+  // カード使用済み
+  hasUsedCard = true;
+
+  // 選択解除
+  selectedCard = null;
+
+  renderCards();
+}
 function updateCardSelection() {
   const cards = cardHand.querySelectorAll(".card");
 
@@ -507,16 +552,28 @@ function useCard(index) {
 
   const card = playerHands[currentPlayer][index];
 
-  //カード使用済みにする
-  hasUsedCard = true;
+  switch (card.id) {
+    case "dimension_invasion":
+      isSelectingTarget = true;
 
-  //カード捨て
-  playerHands[currentPlayer].splice(index, 1);
-  selectedCard = null;
-  renderCards();
+      gameMessageText.textContent = "相手の駒を選択してください！";
+      break;
 
-  gameMessageText.textContent = `${card.name}を使用しました!`;
-  console.log(`${card.name}を使用しました`);
+    default:
+      gameMessageText.textContent = "このカードの効果はまだ未実装です！";
+      break;
+  }
+
+  //   //カード使用済みにする
+  //   hasUsedCard = true;
+
+  //   //カード捨て
+  //   playerHands[currentPlayer].splice(index, 1);
+  //   selectedCard = null;
+  //   renderCards();
+
+  //   gameMessageText.textContent = `${card.name}を使用しました!`;
+  //   console.log(`${card.name}を使用しました`);
 }
 
 //カードをハンドに追加（今は固定のカードのみ）
