@@ -74,6 +74,13 @@ function updateCardSelection() {
 
 //カード選択、一回目は選択二回目は使用
 function selectCard(index) {
+  if (gameOver) return;
+
+  //対象選択中なら一度キャンセル
+  if (isSelectingTarget) {
+    cancelCardSelection();
+  }
+
   if (selectedCard === index) {
     //既に選ばれてたら使用を試みる
     useCard(index);
@@ -148,7 +155,14 @@ function selectTarget(row, col) {
   executeCardEffect(card, selectedCard, row, col);
 }
 
-//カード消費、まだ呼び出してない
+//対象選択中のキャンセル
+function cancelCardSelection() {
+  isSelectingTarget = false;
+  selectedCard = null;
+  updateCardSelection();
+}
+
+//カード消費executeCardEffectsから呼ばれてます
 function consumeCard(index) {
   const hand = playerHands[currentPlayer];
 

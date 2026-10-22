@@ -83,9 +83,12 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  if (selectedCard !== null && !isSelectingTarget) {
-    selectedCard = null;
-    updateCardSelection();
+  if (event.target.closest("#board")) {
+    return;
+  }
+
+  if (selectedCard !== null || isSelectingTarget) {
+    cancelCardSelection();
     gameMessageText.textContent = "";
   }
 });
@@ -167,6 +170,7 @@ function resetGame() {
 
   gameOver = false;
   currentPlayer = BLACK;
+  isSelectingTarget = false;
 
   initializeHand();
   startTurn();

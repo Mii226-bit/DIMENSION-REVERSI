@@ -180,7 +180,7 @@ const CARDS = {
     name: "角取り名人",
     type: "defense",
     icon: "⌗",
-    description: "空いている角からランダムに1マス選ばれ、自分の駒を置く。",
+    description: "空いている角からランダムに1マス選ばれ、\n自分の駒を置く。",
     targetType: "none",
 
     messages: {
@@ -318,7 +318,7 @@ const CARDS = {
     name: "白黒反転",
     type: "disruption",
     icon: "◐",
-    description: "盤面上の白い駒と黒い駒をすべて入れ替える。理不尽。",
+    description: "盤面上の白い駒と黒い駒をすべて入れ替える。\n理不尽。",
     targetType: "none",
 
     messages: {
