@@ -60,6 +60,11 @@ function executeCardEffect(card, index, row, col) {
   console.log(message);
 }
 
+function use001DimensionInvasion(row, col) {
+  boardData[row][col] = currentPlayer;
+  renderBoard();
+}
+
 function use019RandomHandDiscard() {
   const opponentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
   const opponentHand = playerHands[opponentPlayer];
