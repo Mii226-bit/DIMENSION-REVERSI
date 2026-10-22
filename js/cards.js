@@ -23,6 +23,9 @@ function drawCard(count = 1, player = currentPlayer) {
   //あらかじめ持ってくる
   const hand = playerHands[player];
 
+  //引いたカードを保存する配列
+  const drawnCards = [];
+
   for (let i = 0; i < count; i++) {
     if (hand.length >= MAX_HAND_SIZE) {
       gameMessageText.textContent = `${player === BLACK ? "黒" : "白"}は手札がいっぱいでした！`;
@@ -31,7 +34,10 @@ function drawCard(count = 1, player = currentPlayer) {
     }
 
     const randomIndex = Math.floor(Math.random() * CARD_LIST.length);
-    hand.push(CARD_LIST[randomIndex]);
+    const drawnCard = CARD_LIST[randomIndex];
+
+    hand.push(drawnCard);
+    drawnCards.push(drawnCard);
 
     gameMessageText.textContent = `${player === BLACK ? "黒" : "白"}は${CARD_LIST[randomIndex].name}を引きました!`;
     console.log(
@@ -41,6 +47,8 @@ function drawCard(count = 1, player = currentPlayer) {
   if (player === currentPlayer) {
     renderCards();
   }
+
+  return drawnCards;
 }
 
 //カード描画

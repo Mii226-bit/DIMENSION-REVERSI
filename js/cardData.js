@@ -1,7 +1,7 @@
 //ゲームデータを入れるよ
 
 const CARDS = {
-  DIMENSION_INVASION: {
+  CARD_001_DIMENSION_INVASION: {
     id: "dimension_invasion",
     name: "次元の浸食",
     type: "attack",
@@ -16,7 +16,7 @@ const CARDS = {
       success: "次元の浸食が成功しました！",
     },
   },
-  //   CORNER_CONQUEST: {
+  //   CARD_002_CORNER_CONQUEST: {
   //     id: "corner_conquest",
   //     name: "角の簒奪",
   //     type: "attack",
@@ -32,7 +32,7 @@ const CARDS = {
   //     notes: "既存の駒は取り除く。空きマスへの使用と反転判定は未定。",
   //   },
 
-  DOUBLE_ERASURE: {
+  CARD_003_DOUBLE_ERASURE: {
     id: "double_erasure",
     name: "ダブル消去",
     type: "attack",
@@ -48,7 +48,7 @@ const CARDS = {
     notes: "相手の駒が2枚未満の場合の処理は未定。",
   },
 
-  RANDOM_REINFORCEMENT: {
+  CARD_004_RANDOM_REINFORCEMENT: {
     id: "random_reinforcement",
     name: "ランダム配置",
     type: "attack",
@@ -63,7 +63,7 @@ const CARDS = {
     notes: "配置場所の条件と通常の反転判定を行うかは未定。",
   },
 
-  //   SINGLE_REVERSAL: {
+  //   CARD_005_SINGLE_REVERSAL: {
   //     id: "single_reversal",
   //     name: "反転の一閃",
   //     type: "attack",
@@ -80,7 +80,7 @@ const CARDS = {
   //   },
 
   //防御系
-  //   GROWTH_SEED: {
+  //   CARD_006_GROWTH_SEED: {
   //     id: "growth_seed",
   //     name: "増殖の種子",
   //     type: "defense",
@@ -97,7 +97,7 @@ const CARDS = {
   //     notes: "増殖のタイミング、距離の計算、増殖回数は未定。",
   //   },
 
-  //   ONE_TURN_SANCTUARY: {
+  //   CARD_007_ONE_TURN_SANCTUARY: {
   //     id: "one_turn_sanctuary",
   //     name: "絶対防壁",
   //     type: "defense",
@@ -113,7 +113,7 @@ const CARDS = {
   //     notes: "無敵が防ぐ効果の範囲は未定。",
   //   },
 
-  PIECE_RELOCATION: {
+  CARD_008_PIECE_RELOCATION: {
     id: "piece_relocation",
     name: "座標転移",
     type: "defense",
@@ -129,7 +129,7 @@ const CARDS = {
     notes: "移動先の条件と移動後の反転判定は未定。",
   },
 
-  //   EFFECT_NULLIFICATION: {
+  //   CARD_009_EFFECT_NULLIFICATION: {
   //     id: "effect_nullification",
   //     name: "効果遮断",
   //     type: "defense",
@@ -145,7 +145,7 @@ const CARDS = {
   //     notes: "発動タイミングと無効化可能な効果は未定。",
   //   },
 
-  //   NEXT_TURN_CARD_LOCK: {
+  //   CARD_010_NEXT_TURN_CARD_LOCK: {
   //     id: "next_turn_card_lock",
   //     name: "封札の呪印",
   //     type: "defense",
@@ -160,7 +160,7 @@ const CARDS = {
   //     notes: "カード使用を禁止する対象は未定。",
   //   },
 
-  //   NEXT_TURN_MOVE_LOCK: {
+  //   CARD_011_NEXT_TURN_MOVE_LOCK: {
   //     id: "next_turn_move_lock",
   //     name: "着手封印",
   //     type: "defense",
@@ -175,7 +175,7 @@ const CARDS = {
   //     notes: "カード使用の可否とターン終了処理は未定。",
   //   },
 
-  RANDOM_CORNER_DROP: {
+  CARD_012_RANDOM_CORNER_DROP: {
     id: "random_corner_drop",
     name: "角取り名人",
     type: "defense",
@@ -190,7 +190,7 @@ const CARDS = {
     notes: "空き角がない場合と反転判定は未定。",
   },
 
-  //   NEXT_TURN_IMMUNITY: {
+  //   CARD_013_NEXT_TURN_IMMUNITY: {
   //     id: "next_turn_immunity",
   //     name: "次元加護",
   //     type: "defense",
@@ -205,7 +205,7 @@ const CARDS = {
   //     notes: "効果の対象となるターンと防御範囲は未定。",
   //   },
 
-  //   MIRROR_COUNTER: {
+  //   CARD_014_MIRROR_COUNTER: {
   //     id: "mirror_counter",
   //     name: "鏡界反射",
   //     type: "defense",
@@ -220,7 +220,7 @@ const CARDS = {
   //     notes: "反射できる効果と反射時の処理は要検討。",
   //   },
 
-  //   BOARD_INTERFERENCE_SHIELD: {
+  //   CARD_015_BOARD_INTERFERENCE_SHIELD: {
   //     id: "board_interference_shield",
   //     name: "位相障壁",
   //     type: "defense",
@@ -235,7 +235,7 @@ const CARDS = {
   //     notes: "対象となるカード効果と持続時間の数え方は未定。",
   //   },
 
-  //   FLIP_LIMIT_FIELD: {
+  //   CARD_016_FLIP_LIMIT_FIELD: {
   //     id: "flip_limit",
   //     name: "反転制限",
   //     type: "defense",
@@ -250,7 +250,7 @@ const CARDS = {
   //     notes: "制限するプレイヤーと、2枚以上反転する手の扱いは未定。",
   //   },
 
-  //   UNDERDOG_REVERSAL: {
+  //   CARD_017_UNDERDOG_REVERSAL: {
   //     id: "underdog_reversal",
   //     name: "逆境の反攻",
   //     type: "defense",
@@ -267,7 +267,7 @@ const CARDS = {
   //   },
 
   //妨害系
-  //   TURN_SKIP: {
+  //   CARD_018_TURN_SKIP: {
   //     id: "turn_skip",
   //     name: "時飛ばし",
   //     type: "disruption",
@@ -282,7 +282,7 @@ const CARDS = {
   //     notes: "スキップ時のドローや継続効果の扱いは未定。",
   //   },
 
-  RANDOM_HAND_DISCARD: {
+  CARD_019_RANDOM_HAND_DISCARD: {
     id: "random_hand_discard",
     name: "手札崩壊",
     type: "disruption",
@@ -297,7 +297,7 @@ const CARDS = {
     notes: "相手の手札が0枚の場合の扱いは未定。",
   },
 
-  //   OPPONENT_CARD_THEFT_USE: {
+  //   CARD_020_OPPONENT_CARD_THEFT_USE: {
   //     id: "opponent_card_theft_use",
   //     name: "能力強奪",
   //     type: "disruption",
@@ -312,8 +312,7 @@ const CARDS = {
 
   //     notes: "選んだカードの消費方法と使用条件は未定。",
   //   },
-
-  ALL_COLORS_SWAP: {
+  CARD_021_ALL_COLORS_SWAP: {
     id: "all_colors_swap",
     name: "白黒反転",
     type: "disruption",
@@ -322,11 +321,11 @@ const CARDS = {
     targetType: "none",
 
     messages: {
-      success: "白黒反転が発動しました！",
+      success: "黒と白が入れ替わりました！\n理不尽でごめんね(^ε^)-☆Chu!!",
     },
   },
 
-  ROTATE_BOARD_180: {
+  CARD_022_ROTATE_BOARD_180: {
     id: "rotate_board_180",
     name: "盤面転回",
     type: "disruption",
@@ -340,7 +339,7 @@ const CARDS = {
     },
   },
 
-  //   ERASE_LOWER_HALF: {
+  //   CARD_023_ERASE_LOWER_HALF: {
   //     id: "erase_lower_half",
   //     name: "下界消滅",
   //     type: "disruption",
@@ -355,7 +354,7 @@ const CARDS = {
   //     notes: "発動条件は未定。",
   //   },
 
-  //   ERASE_UPPER_HALF: {
+  //   CARD_024_ERASE_UPPER_HALF: {
   //     id: "erase_upper_half",
   //     name: "上界消滅",
   //     type: "disruption",
@@ -370,7 +369,7 @@ const CARDS = {
   //     notes: "発動条件は未定。",
   //   },
 
-  //   TOTAL_ERASURE: {
+  //   CARD_025_TOTAL_ERASURE: {
   //     id: "total_erasure",
   //     name: "盤面零化",
   //     type: "disruption",
@@ -385,7 +384,7 @@ const CARDS = {
   //     notes: "全消去後のゲーム進行と終了判定は要検討。",
   //   },
 
-  //   STEAL_HAND_CARD: {
+  //   CARD_026_STEAL_HAND_CARD: {
   //     id: "steal_hand_card",
   //     name: "次元の略奪",
   //     type: "disruption",
@@ -401,7 +400,7 @@ const CARDS = {
   //     notes: "ランダムか選択式かは未定。手札上限の処理も要検討。",
   //   },
 
-  //   HAND_SHUFFLE: {
+  //   CARD_027_HAND_SHUFFLE: {
   //     id: "hand_shuffle",
   //     name: "手札撹乱",
   //     type: "disruption",
@@ -416,7 +415,7 @@ const CARDS = {
   //     notes: "シャッフル対象と、並び替え以外の効果を持つかは未定。",
   //   },
 
-  //   HAND_EXCHANGE: {
+  //   CARD_028_HAND_EXCHANGE: {
   //     id: "hand_exchange",
   //     name: "手札交換",
   //     type: "disruption",
@@ -429,7 +428,7 @@ const CARDS = {
   //     },
   //   },
 
-  //   AUTO_PLAY_THREE_TURNS: {
+  //   CARD_029_AUTO_PLAY_THREE_TURNS: {
   //     id: "auto_play_three_turns",
   //     name: "自律暴走",
   //     type: "disruption",
@@ -444,7 +443,7 @@ const CARDS = {
   //     notes: "自動行動のルールと3ターンの数え方は未定。",
   //   },
 
-  COPY_HAND_CARD: {
+  CARD_030_COPY_HAND_CARD: {
     id: "copy_hand_card",
     name: "複製術式",
     type: "disruption",
@@ -460,7 +459,7 @@ const CARDS = {
     notes: "手札上限に達している場合の扱いは未定。",
   },
 
-  //   BLOCK_EMPTY_CELL: {
+  //   CARD_031_BLOCK_EMPTY_CELL: {
   //     id: "block_empty_cell",
   //     name: "座標封鎖",
   //     type: "disruption",
@@ -477,7 +476,7 @@ const CARDS = {
   //     notes: "特殊カードによる配置も封鎖するかは未定。",
   //   },
 
-  //   BLOCK_NEXT_DRAW: {
+  //   CARD_032_BLOCK_NEXT_DRAW: {
   //     id: "block_next_draw",
   //     name: "ドロー封印",
   //     type: "disruption",
@@ -491,7 +490,7 @@ const CARDS = {
   //   },
 
   //特殊系
-  //   FIVE_TURN_DEADLINE: {
+  //   CARD_033_FIVE_TURN_DEADLINE: {
   //     id: "five_turn_deadline",
   //     name: "終焉の刻限",
   //     type: "special",
@@ -506,7 +505,7 @@ const CARDS = {
   //     notes: "5ターンの数え方と終了時の勝敗判定は未定。",
   //   },
 
-  //   DOUBLE_PLACEMENT: {
+  //   CARD_034_DOUBLE_PLACEMENT: {
   //     id: "double_placement",
   //     name: "二重着手",
   //     type: "special",
@@ -521,7 +520,7 @@ const CARDS = {
   //     notes: "途中で置ける場所がなくなった場合の処理は未定。",
   //   },
 
-  //   RECLAIM_DISCARDED_CARD: {
+  //   CARD_035_RECLAIM_DISCARDED_CARD: {
   //     id: "reclaim_discarded_card",
   //     name: "失札再生",
   //     type: "special",
@@ -537,7 +536,7 @@ const CARDS = {
   //     notes: "使用済みカードの保存方法と手札上限への対応は未定。",
   //   },
 
-  //   GIANT_THREE_BY_THREE: {
+  //   CARD_036_GIANT_THREE_BY_THREE: {
   //     id: "giant_three_by_three",
   //     name: "巨像降臨",
   //     type: "special",
@@ -552,7 +551,7 @@ const CARDS = {
   //     notes: "3×3の占有範囲と通常の反転判定は未定。",
   //   },
 
-  TRADE_ONE_DRAW_TWO: {
+  CARD_037_TRADE_ONE_DRAW_TWO: {
     id: "trade_one_draw_two",
     name: "次元交換",
     type: "special",
@@ -568,21 +567,21 @@ const CARDS = {
     notes: "使用中のカードを交換対象にできるか、手札上限の扱いは未定。",
   },
 
-  DOCTOR_POT: {
+  CARD_038_DOCTOR_POT: {
     id: "doctor_pot",
-    name: "博士の壺",
+    name: "強欲な博士",
     type: "special",
     icon: "🏺",
     description:
-      "自分のデッキからカードを2枚引く。\nどこかで見たことある気がするが気のせい。",
+      "自分のデッキからカードを2枚引く。\nどこかで見たことある気がするのは気のせい。",
     targetType: "none",
 
     messages: {
-      success: "博士の壺が成功しました！",
+      success: "強欲な博士を使用！",
     },
   },
 
-  //   RANDOM_BOARD_RESIZE: {
+  //   CARD_039_RANDOM_BOARD_RESIZE: {
   //     id: "random_board_resize",
   //     name: "次元伸縮",
   //     type: "special",
@@ -597,7 +596,7 @@ const CARDS = {
   //     notes: "変更できるサイズと既存の駒の扱いは要検討。",
   //   },
 
-  //   SHUFFLE_ALL_PIECES: {
+  //   CARD_40_SHUFFLE_ALL_PIECES: {
   //     id: "shuffle_all_pieces",
   //     name: "盤上混沌",
   //     type: "special",
@@ -612,7 +611,7 @@ const CARDS = {
   //     notes: "空きマスもシャッフルの対象に含めるかは未定。",
   //   },
 
-  //   CHANGE_COLORS_RED_BLUE: {
+  //   CARD_041_CHANGE_COLORS_RED_BLUE: {
   //     id: "change_colors_red_blue",
   //     name: "異彩変換",
   //     type: "special",
