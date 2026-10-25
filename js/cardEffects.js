@@ -1,4 +1,4 @@
-function executeCardEffect(card, index, row, col) {
+function executeCardEffect(card, index, targets = []) {
   //カード消費
   consumeCard(index);
 
@@ -6,11 +6,11 @@ function executeCardEffect(card, index, row, col) {
 
   switch (card.id) {
     case CARDS.CARD_001_DIMENSION_INVASION.id:
-      use001DimensionInvasion(row, col);
+      use001DimensionInvasion(targets[0].row, targets[0].col);
       break;
 
     case CARDS.CARD_003_DOUBLE_ERASURE.id:
-      use003DoubleErasure(row, col);
+      use003DoubleErasure(targets);
       break;
 
     case CARDS.CARD_004_RANDOM_REINFORCEMENT.id:
@@ -18,7 +18,7 @@ function executeCardEffect(card, index, row, col) {
       break;
 
     case CARDS.CARD_008_PIECE_RELOCATION.id:
-      use008PieceRelocation(row, col);
+      use008PieceRelocation(targets[0].row, targets[0].col);
       break;
 
     case CARDS.CARD_012_RANDOM_CORNER_DROP.id:
@@ -56,12 +56,21 @@ function executeCardEffect(card, index, row, col) {
   }
 
   isSelectingTarget = false;
+  selectedTargets = [];
   gameMessageText.textContent = message;
   console.log(message);
 }
 
 function use001DimensionInvasion(row, col) {
   boardData[row][col] = currentPlayer;
+  renderBoard();
+}
+
+function use003DoubleErasure(targets) {
+  targets.forEach((target) => {
+    boardData[target.row][target.col] = EMPTY;
+  });
+
   renderBoard();
 }
 

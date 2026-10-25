@@ -154,19 +154,47 @@ function selectTarget(row, col) {
       }
       break;
 
+    case "opponent_pieces_2":
+      // 相手の駒でなければ選択できない
+      if (boardData[row][col] !== opponentPlayer) {
+        gameMessageText.textContent = card.messages.select;
+        return;
+      }
+
+      //some()を使って、すでに選択された駒があるかどうかを確認
+      const alreadySelected = selectedTargets.some((target) => {
+        return target.row === row && target.col === col;
+      });
+
+      if (alreadySelected) {
+        gameMessageText.textContent = "その駒はすでに選択されています！";
+        return;
+      }
+
+      selectedTargets.push({ row, col });
+
+      if (selectedTargets.length === 2) {
+        executeCardEffect(card, selectedCard, selectedTargets);
+        return;
+      }
+
+      console.log(selectedTargets.length);
+      return;
+
     default:
       gameMessageText.textContent = "このカードの選択対象は未実装です！";
       return;
   }
 
   //効果を実行
-  executeCardEffect(card, selectedCard, row, col);
+  executeCardEffect(card, selectedCard, [{ row, col }]);
 }
 
 //対象選択中のキャンセル
 function cancelCardSelection() {
   isSelectingTarget = false;
   selectedCard = null;
+  selectedTargets = [];
   updateCardSelection();
 }
 

@@ -36,6 +36,7 @@ let currentPlayer = BLACK;
 let selectedCard = null;
 let hasUsedCard = false;
 let isSelectingTarget = false;
+let selectedTargets = [];
 
 //==== HTML要素の取得 ====
 
@@ -171,6 +172,7 @@ function resetGame() {
   gameOver = false;
   currentPlayer = BLACK;
   isSelectingTarget = false;
+  selectedTargets = [];
 
   initializeHand();
   startTurn();
