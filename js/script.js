@@ -35,6 +35,7 @@ let gameOver = false;
 let currentPlayer = BLACK;
 let selectedCard = null;
 let hasUsedCard = false;
+let hasPlacedPiece = false;
 let isSelectingTarget = false;
 let selectedTargets = [];
 
@@ -81,7 +82,14 @@ resetButton.addEventListener("click", () => {
 
 //ターンエンドボタン
 endTurnButton.addEventListener("click", () => {
-  console.log("ターンエンド！");
+  requestEndTurn();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    requestEndTurn();
+  }
 });
 
 //カード外クリック処理
@@ -114,6 +122,11 @@ function cellClick(row, col) {
     return;
   }
 
+  if (hasPlacedPiece) {
+    gameMessageText.textContent = "このターンもう駒を置いています！";
+    return;
+  }
+
   gameMessageText.textContent = "";
 
   if (!canFlip(row, col)) {
@@ -128,23 +141,61 @@ function cellClick(row, col) {
   //置いた駒に対応してひっくり返す
   flipPieces(row, col);
 
-  switchPlayer();
+  //駒を置いたことを記録
+  hasPlacedPiece = true;
 
-  if (!hasValidMove()) {
-    switchPlayer();
+  if (hasUsedCard) {
+    //カード使用済みならターン終了
+    finishTurn();
+  } else {
+    //カード未使用ならターン継続
+    renderBoard();
+  }
+}
 
-    if (!hasValidMove()) {
-      renderBoard();
-      endGame();
-      return;
-    }
+//ターンエンド処理
+function requestEndTurn() {
+  if (gameOver) return;
 
-    gameMessageText.textContent = `${currentPlayer === BLACK ? "白" : "黒"}は置ける場所がありません！パス！`;
-    console.log("パス");
+  const canPlace = !hasPlacedPiece && hasValidMove();
+  const canUseCard = !hasUsedCard && playerHands[currentPlayer].length > 0;
+
+  let message = "";
+
+  if (canPlace) {
+    message += "まだ駒を置いていません。\n";
   }
 
-  startTurn();
+  if (canUseCard) {
+    message += "まだカードを使用していません。\n";
+  }
 
+  if (message !== "") {
+    const confirmed = confirm(`${message}ターンを終了しますか？`);
+
+    if (!confirmed) {
+      return;
+    }
+  }
+
+  finishTurn();
+}
+
+//敗北判定、プレイヤー交代
+function finishTurn() {
+  const result = countPieces();
+  const myCount =
+    currentPlayer === BLACK ? result.blackCount : result.whiteCount;
+
+  if (myCount === 0) {
+    endGame("noPieces");
+    return;
+  }
+
+  cancelCardSelection();
+
+  switchPlayer();
+  startTurn();
   renderBoard();
 }
 
@@ -186,13 +237,22 @@ function resetGame() {
 }
 
 //ゲームの勝敗判定
-function endGame() {
+function endGame(reason = "normal") {
   gameOver = true;
   const result = countPieces();
 
   gameMessageText.classList.add("result-message");
 
   turnInfoText.textContent = "ゲーム終了！";
+
+  //駒が0枚でターン終了された
+  if (reason === "noPieces") {
+    const winner = currentPlayer === BLACK ? "白" : "黒";
+
+    gameMessageText.textContent = `${winner} WIN!\n相手の駒が0枚になりました！`;
+
+    return;
+  }
 
   if (result.blackCount === result.whiteCount) {
     gameMessageText.textContent = "引き分け！";
@@ -389,7 +449,7 @@ function showValidMoves() {
         `.cell[data-row="${row}"][data-col="${col}"]`,
       );
       cell.classList.remove("valid-move");
-      if (canFlip(row, col)) {
+      if (!hasPlacedPiece && canFlip(row, col)) {
         cell.classList.add("valid-move");
       }
     }

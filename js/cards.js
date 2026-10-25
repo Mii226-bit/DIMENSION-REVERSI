@@ -13,6 +13,7 @@ function initializeHand(count = INITIAL_HAND_SIZE) {
 //ターン開始時ドロー、カード描画までしてくれてる
 function startTurn() {
   hasUsedCard = false;
+  hasPlacedPiece = false;
   selectedCard = null;
 
   drawCard();
@@ -39,7 +40,7 @@ function drawCard(count = 1, player = currentPlayer) {
     hand.push(drawnCard);
     drawnCards.push(drawnCard);
 
-    gameMessageText.textContent = `${player === BLACK ? "黒" : "白"}は${CARD_LIST[randomIndex].name}を引きました!`;
+    gameMessageText.textContent = `${player === BLACK ? "黒" : "白"}のターン！\n${CARD_LIST[randomIndex].name}を引きました!`;
     console.log(
       `${player === BLACK ? "黒" : "白"}は${CARD_LIST[randomIndex].name}を引きました!`,
     );
@@ -179,6 +180,21 @@ function selectTarget(row, col) {
       }
 
       console.log(selectedTargets.length);
+
+      if (selectedTargets.length === 1) {
+        //1枚だったらそれだけで返す
+        const result = countPieces();
+
+        const opponentCount =
+          currentPlayer === BLACK ? result.whiteCount : result.blackCount;
+
+        if (opponentCount === 1) {
+          executeCardEffect(card, selectedCard, selectedTargets);
+          return;
+        }
+        gameMessageText.textContent = "1枚目を選択しました！";
+      }
+
       return;
 
     default:

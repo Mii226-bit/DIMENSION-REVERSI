@@ -59,6 +59,10 @@ function executeCardEffect(card, index, targets = []) {
   selectedTargets = [];
   gameMessageText.textContent = message;
   console.log(message);
+
+  if (hasPlacedPiece) {
+    finishTurn();
+  }
 }
 
 function use001DimensionInvasion(row, col) {
