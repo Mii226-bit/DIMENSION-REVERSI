@@ -49,6 +49,7 @@ const gameMessageText = document.getElementById("game-message");
 const board = document.getElementById("board");
 const cardHand = document.getElementById("card-hand");
 const resetButton = document.getElementById("resetButton");
+const endTurnButton = document.getElementById("endTurnButton");
 
 //==== 初期設定 ====
 
@@ -76,6 +77,11 @@ for (let row = 0; row < BOARD_SIZE; row++) {
 //リセットボタンのクリックイベント
 resetButton.addEventListener("click", () => {
   resetGame();
+});
+
+//ターンエンドボタン
+endTurnButton.addEventListener("click", () => {
+  console.log("ターンエンド！");
 });
 
 //カード外クリック処理
