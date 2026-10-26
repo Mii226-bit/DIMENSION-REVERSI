@@ -22,7 +22,7 @@ function executeCardEffect(card, index, targets = []) {
       break;
 
     case CARDS.CARD_012_RANDOM_CORNER_DROP.id:
-      use012RandomCornerDrop();
+      message += `\n${use012RandomCornerDrop()}`; //OK
       break;
 
     case CARDS.CARD_019_RANDOM_HAND_DISCARD.id:
@@ -91,9 +91,7 @@ function use004RandomReinforcement() {
     }
 
     const randomIndex = Math.floor(Math.random() * emptyCells.length);
-
     const target = emptyCells.splice(randomIndex, 1)[0];
-
     boardData[target.row][target.col] = currentPlayer;
   }
 
@@ -107,7 +105,33 @@ function use008PieceRelocation(from, to) {
   renderBoard();
 }
 
-function use012RandomCornerDrop() {}
+function use012RandomCornerDrop() {
+  const corners = [
+    { row: 0, col: 0 },
+    { row: 0, col: BOARD_SIZE - 1 },
+    { row: BOARD_SIZE - 1, col: 0 },
+    { row: BOARD_SIZE - 1, col: BOARD_SIZE - 1 },
+  ];
+
+  //空いてる角だけを取得
+  //filter:条件に合うものを取り出して、新しい配列を作る
+  const emptyConers = corners.filter((corner) => {
+    return boardData[corner.row][corner.col] === EMPTY;
+  });
+
+  if (emptyConers.length === 0) {
+    return `${card.name}は失敗した！`;
+  }
+
+  const randomIndex = Math.floor(Math.random() * emptyConers.length);
+  const target = emptyConers[randomIndex];
+
+  boardData[target.row][target.col] = currentPlayer;
+
+  renderBoard();
+
+  return "";
+}
 
 function use019RandomHandDiscard() {
   const opponentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
