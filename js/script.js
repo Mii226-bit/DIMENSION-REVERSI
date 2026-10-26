@@ -187,8 +187,17 @@ function finishTurn() {
   const myCount =
     currentPlayer === BLACK ? result.blackCount : result.whiteCount;
 
+  //自分の駒が0なら敗北
   if (myCount === 0) {
     endGame("noPieces");
+    return;
+  }
+
+  const totalPieces = result.blackCount + result.whiteCount;
+  const totalCells = BOARD_SIZE * BOARD_SIZE;
+
+  if (totalPieces === totalCells) {
+    endGame();
     return;
   }
 

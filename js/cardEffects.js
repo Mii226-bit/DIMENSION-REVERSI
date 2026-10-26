@@ -59,10 +59,6 @@ function executeCardEffect(card, index, targets = []) {
   selectedTargets = [];
   gameMessageText.textContent = message;
   console.log(message);
-
-  if (hasPlacedPiece) {
-    finishTurn();
-  }
 }
 
 function use001DimensionInvasion(row, col) {
@@ -77,6 +73,22 @@ function use003DoubleErasure(targets) {
 
   renderBoard();
 }
+
+function use004RandomReinforcement() {
+  const emptyCells = [];
+
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      if (boardData[row][col] === EMPTY) {
+        emptyCells.push({ row, col });
+      }
+    }
+  }
+}
+
+function use008PieceRelocation() {}
+
+function use012RandomCornerDrop() {}
 
 function use019RandomHandDiscard() {
   const opponentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
@@ -104,6 +116,12 @@ function use021AllColorsSwap() {
   }
   renderBoard();
 }
+
+function use022RotateBoard180() {}
+
+function use030CopyHandCard() {}
+
+function use037TradeOneDrawTwo() {}
 
 function use038DoctorPot() {
   const drawnCards = drawCard(2);
