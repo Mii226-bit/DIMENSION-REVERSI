@@ -3,7 +3,7 @@
 const CARDS = {
   CARD_001_DIMENSION_INVASION: {
     id: "dimension_invasion",
-    name: "次元の浸食",
+    name: "洗脳",
     type: "attack",
     icon: "✦",
 
@@ -13,7 +13,7 @@ const CARDS = {
 
     messages: {
       select: "色を変える相手の駒を選んでください。",
-      success: "次元の浸食が成功しました！",
+      success: "洗脳が成功しました！",
     },
   },
   //   CARD_002_CORNER_CONQUEST: {
@@ -34,33 +34,29 @@ const CARDS = {
 
   CARD_003_DOUBLE_ERASURE: {
     id: "double_erasure",
-    name: "ダブル消去",
+    name: "敵駒消去",
     type: "attack",
     icon: "✕",
-    description: "相手の駒を2枚選び、盤面から取り除く。",
+    description: "相手の駒を2枚選択し、消し去る",
     targetType: "opponent_pieces_2",
 
     messages: {
       select: "消去する相手の駒を2枚選んでください。",
-      success: "ダブル消去が成功しました！",
+      success: "相手の駒が消去されました",
     },
-
-    notes: "相手の駒が2枚未満の場合の処理は未定。",
   },
 
   CARD_004_RANDOM_REINFORCEMENT: {
     id: "random_reinforcement",
-    name: "ランダム配置",
+    name: "陣地拡大",
     type: "attack",
     icon: "✧",
-    description: "盤面のランダムな位置に自分の駒を2枚配置する。",
+    description: "盤面のランダムな空きマスに自分の駒を2枚配置する。",
     targetType: "none",
 
     messages: {
-      success: "駒をランダムに二個配置しました！",
+      success: "自分の駒が増えました！",
     },
-
-    notes: "配置場所の条件と通常の反転判定を行うかは未定。",
   },
 
   //   CARD_005_SINGLE_REVERSAL: {
@@ -284,17 +280,15 @@ const CARDS = {
 
   CARD_019_RANDOM_HAND_DISCARD: {
     id: "random_hand_discard",
-    name: "手札崩壊",
+    name: "手札破壊",
     type: "disruption",
     icon: "✂",
-    description: "相手の手札からランダムに1枚捨てさせる。",
+    description: "相手の手札からランダムに1枚捨てる。",
     targetType: "none",
 
     messages: {
-      success: "手札崩壊が成功しました！",
+      success: "表示されない",
     },
-
-    notes: "相手の手札が0枚の場合の扱いは未定。",
   },
 
   //   CARD_020_OPPONENT_CARD_THEFT_USE: {
@@ -314,15 +308,16 @@ const CARDS = {
   //   },
   CARD_021_ALL_COLORS_SWAP: {
     id: "all_colors_swap",
-    name: "白黒反転",
+    name: "ちゃぶ台返し",
     type: "disruption",
     icon: "◐",
-    description: "盤面上の白い駒と黒い駒をすべて入れ替える。\n理不尽。",
+    description: "盤面上の白い駒と黒い駒を入れ替える。\n理不尽。",
     targetType: "none",
 
     messages: {
-      success: "黒と白が入れ替わりました！\n理不尽でごめんね(^ε^)-☆Chu!!",
+      success: "黒と白が入れ替わりました！",
     },
+    notes: "名前候補：盤面反転",
   },
 
   CARD_022_ROTATE_BOARD_180: {

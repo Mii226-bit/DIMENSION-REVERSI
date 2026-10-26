@@ -197,6 +197,33 @@ function selectTarget(row, col) {
 
       return;
 
+    case "piece_then_destination":
+      //1回目:移動元の駒を選択
+
+      if (selectedTargets.length === 0) {
+        if (boardData[row][col] === EMPTY) {
+          gameMessageText.textContent = "移動する駒を選んでください！";
+          return;
+        }
+
+        selectedTargets.push({ row, col });
+        gameMessageText.textContent = "移動先の空きマスを選んでください！";
+        return;
+      }
+
+      //2回目:移動先の駒の選択
+      if (selectedTargets.length === 1) {
+        if (boardData[row][col] !== EMPTY) {
+          gameMessageText.textContent = "空いているマスを選んでください！";
+          return;
+        }
+
+        selectedTargets.push({ row, col });
+        executeCardEffect(card, selectedCard, selectedTargets);
+        return;
+      }
+      return;
+
     default:
       gameMessageText.textContent = "このカードの選択対象は未実装です！";
       return;

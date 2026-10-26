@@ -250,6 +250,8 @@ function endGame(reason = "normal") {
   gameOver = true;
   const result = countPieces();
 
+  renderBoard();
+
   gameMessageText.classList.add("result-message");
 
   turnInfoText.textContent = "ゲーム終了！";

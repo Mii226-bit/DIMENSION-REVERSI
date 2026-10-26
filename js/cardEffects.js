@@ -9,7 +9,7 @@ function executeCardEffect(card, index, targets = []) {
       use001DimensionInvasion(targets[0].row, targets[0].col);
       break;
 
-    case CARDS.CARD_003_DOUBLE_ERASURE.id:
+    case CARDS.CARD_003_DOUBLE_ERASURE.id: //OK
       use003DoubleErasure(targets);
       break;
 
@@ -18,7 +18,7 @@ function executeCardEffect(card, index, targets = []) {
       break;
 
     case CARDS.CARD_008_PIECE_RELOCATION.id:
-      use008PieceRelocation(targets[0].row, targets[0].col);
+      use008PieceRelocation(targets[0], targets[1]);
       break;
 
     case CARDS.CARD_012_RANDOM_CORNER_DROP.id:
@@ -84,9 +84,28 @@ function use004RandomReinforcement() {
       }
     }
   }
+
+  for (let i = 0; i < 2; i++) {
+    if (emptyCells.length === 0) {
+      break;
+    }
+
+    const randomIndex = Math.floor(Math.random() * emptyCells.length);
+
+    const target = emptyCells.splice(randomIndex, 1)[0];
+
+    boardData[target.row][target.col] = currentPlayer;
+  }
+
+  renderBoard();
 }
 
-function use008PieceRelocation() {}
+function use008PieceRelocation(from, to) {
+  const piece = boardData[from.row][from.col];
+  boardData[to.row][to.col] = piece;
+  boardData[from.row][from.col] = EMPTY;
+  renderBoard();
+}
 
 function use012RandomCornerDrop() {}
 
@@ -101,7 +120,7 @@ function use019RandomHandDiscard() {
   const randomIndex = Math.floor(Math.random() * opponentHand.length);
   const discardedCard = opponentHand.splice(randomIndex, 1)[0];
 
-  return `相手の${discardedCard.name}は消滅した！`;
+  return `相手の「${discardedCard.name}」を破壊した！`;
 }
 
 function use021AllColorsSwap() {
@@ -129,8 +148,3 @@ function use038DoctorPot() {
 
   return `${cardNames.join("と")}を引きました！`;
 }
-
-// // 盤面を更新
-// renderBoard();
-
-// gameMessageText.textContent = "次元の浸食を発動しました！";
