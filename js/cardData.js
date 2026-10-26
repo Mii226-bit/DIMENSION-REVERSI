@@ -287,7 +287,7 @@ const CARDS = {
     targetType: "none",
 
     messages: {
-      success: "表示されない",
+      success: "手札破壊成功！",
     },
   },
 
@@ -311,26 +311,26 @@ const CARDS = {
     name: "ちゃぶ台返し",
     type: "disruption",
     icon: "◐",
-    description: "盤面上の白い駒と黒い駒を入れ替える。\n理不尽。",
+    description: "盤面上の駒を全て裏返す。\n理不尽。",
     targetType: "none",
 
     messages: {
-      success: "黒と白が入れ替わりました！",
+      success: "盤面の駒を裏返しました！",
     },
     notes: "名前候補：盤面反転",
   },
 
   CARD_022_ROTATE_BOARD_180: {
     id: "rotate_board_180",
-    name: "盤面転回",
+    name: "盤面回転",
     type: "disruption",
     icon: "⤾",
     description:
-      "盤面にあるすべての駒の配置を180度回転させる。\n意味？そんなもの自分で探すんだよ",
+      "盤面にあるすべての駒の配置を180度回転させる。\n意味？そんなの自分で探すんだよ",
     targetType: "none",
 
     messages: {
-      success: "盤面転回が成功しました！",
+      success: "180度回転しました！",
     },
   },
 

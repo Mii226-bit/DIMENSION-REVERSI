@@ -5,7 +5,7 @@ function executeCardEffect(card, index, targets = []) {
   let message = card.messages.success;
 
   switch (card.id) {
-    case CARDS.CARD_001_DIMENSION_INVASION.id:
+    case CARDS.CARD_001_DIMENSION_INVASION.id: //OK
       use001DimensionInvasion(targets[0].row, targets[0].col);
       break;
 
@@ -13,19 +13,23 @@ function executeCardEffect(card, index, targets = []) {
       use003DoubleErasure(targets);
       break;
 
-    case CARDS.CARD_004_RANDOM_REINFORCEMENT.id:
+    case CARDS.CARD_004_RANDOM_REINFORCEMENT.id: //OK
       use004RandomReinforcement();
       break;
 
-    case CARDS.CARD_008_PIECE_RELOCATION.id:
+    case CARDS.CARD_008_PIECE_RELOCATION.id: //OK
       use008PieceRelocation(targets[0], targets[1]);
       break;
 
-    case CARDS.CARD_012_RANDOM_CORNER_DROP.id:
-      message += `\n${use012RandomCornerDrop()}`; //OK
+    case CARDS.CARD_012_RANDOM_CORNER_DROP.id: //OK
+      const result012 = use012RandomCornerDrop();
+
+      if (result012 === false) {
+        message = `${card.name}は失敗した！`;
+      }
       break;
 
-    case CARDS.CARD_019_RANDOM_HAND_DISCARD.id:
+    case CARDS.CARD_019_RANDOM_HAND_DISCARD.id: //OK
       message += `\n${use019RandomHandDiscard()}`;
       break;
 
@@ -33,7 +37,7 @@ function executeCardEffect(card, index, targets = []) {
       use021AllColorsSwap();
       break;
 
-    case CARDS.CARD_022_ROTATE_BOARD_180.id:
+    case CARDS.CARD_022_ROTATE_BOARD_180.id: //OK
       use022RotateBoard180();
       break;
 
@@ -45,7 +49,7 @@ function executeCardEffect(card, index, targets = []) {
       use037TradeOneDrawTwo();
       break;
 
-    case CARDS.CARD_038_DOCTOR_POT.id:
+    case CARDS.CARD_038_DOCTOR_POT.id: //OK
       message += `\n${use038DoctorPot()}`;
       break;
 
@@ -120,7 +124,7 @@ function use012RandomCornerDrop() {
   });
 
   if (emptyConers.length === 0) {
-    return `${card.name}は失敗した！`;
+    return false;
   }
 
   const randomIndex = Math.floor(Math.random() * emptyConers.length);
@@ -130,7 +134,7 @@ function use012RandomCornerDrop() {
 
   renderBoard();
 
-  return "";
+  return true;
 }
 
 function use019RandomHandDiscard() {
@@ -160,7 +164,28 @@ function use021AllColorsSwap() {
   renderBoard();
 }
 
-function use022RotateBoard180() {}
+function use022RotateBoard180() {
+  //回転後の座標を作成
+  const rotateBoard = Array.from({ length: BOARD_SIZE }, () =>
+    Array(BOARD_SIZE).fill(EMPTY),
+  );
+
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      const newRow = BOARD_SIZE - 1 - row;
+      const newCol = BOARD_SIZE - 1 - col;
+      rotateBoard[newRow][newCol] = boardData[row][col];
+    }
+  }
+
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      boardData[row][col] = rotateBoard[row][col];
+    }
+  }
+
+  renderBoard();
+}
 
 function use030CopyHandCard() {}
 
