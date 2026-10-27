@@ -249,7 +249,7 @@ function selectHandTarget(index) {
     case "hand_card":
       // 使用中のカード自身は選べない
       if (index === selectedCard) {
-        gameMessageText.textContent = "使用中のカードはコピーできません！";
+        gameMessageText.textContent = "使用中のカードは選択できません！";
         return;
       }
 
@@ -259,7 +259,9 @@ function selectHandTarget(index) {
       if (!targetCard) return;
 
       // 対象カードを効果実行関数へ渡す
-      executeCardEffect(card, selectedCard, [targetCard]);
+      executeCardEffect(card, selectedCard, [
+        { card: targetCard, index: index },
+      ]);
       return;
 
     default:

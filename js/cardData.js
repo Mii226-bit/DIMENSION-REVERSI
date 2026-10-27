@@ -440,15 +440,15 @@ const CARDS = {
 
   CARD_030_COPY_HAND_CARD: {
     id: "copy_hand_card",
-    name: "複製術式",
+    name: "手札複製",
     type: "disruption",
     icon: "▤",
-    description: "自分の手札から1枚選び、そのカードをコピーする。",
+    description: "自分の手札から1枚選び、そのカードを複製する。",
     targetType: "hand_card",
 
     messages: {
-      select: "コピーするカードを選んでください。",
-      success: "複製術式が成功しました！",
+      select: "複製するカードを選んでください。",
+      success: "手札複製を使用！",
     },
 
     notes: "手札上限に達している場合の扱いは未定。",
@@ -548,15 +548,15 @@ const CARDS = {
 
   CARD_037_TRADE_ONE_DRAW_TWO: {
     id: "trade_one_draw_two",
-    name: "次元交換",
+    name: "錬金術",
     type: "special",
     icon: "⇌",
-    description: "自分の手札を1枚捨て、新しいカードを2枚引く。",
+    description: "手札を1枚生贄に、新たなカードを2枚生成する。",
     targetType: "hand_card",
 
     messages: {
-      select: "交換するカードを1枚選んでください。",
-      success: "次元交換が成功しました！",
+      select: "生贄にする手札を1枚選んでください。",
+      success: "錬金術に成功しました！",
     },
 
     notes: "使用中のカードを交換対象にできるか、手札上限の扱いは未定。",

@@ -8,19 +8,15 @@ function executeCardEffect(card, index, targets = []) {
     case CARDS.CARD_001_DIMENSION_INVASION.id: //OK
       use001DimensionInvasion(targets[0].row, targets[0].col);
       break;
-
     case CARDS.CARD_003_DOUBLE_ERASURE.id: //OK
       use003DoubleErasure(targets);
       break;
-
     case CARDS.CARD_004_RANDOM_REINFORCEMENT.id: //OK
       use004RandomReinforcement();
       break;
-
     case CARDS.CARD_008_PIECE_RELOCATION.id: //OK
       use008PieceRelocation(targets[0], targets[1]);
       break;
-
     case CARDS.CARD_012_RANDOM_CORNER_DROP.id: //OK
       const result012 = use012RandomCornerDrop();
 
@@ -28,34 +24,26 @@ function executeCardEffect(card, index, targets = []) {
         message = `${card.name}は失敗した！`;
       }
       break;
-
     case CARDS.CARD_019_RANDOM_HAND_DISCARD.id: //OK
       message += `\n${use019RandomHandDiscard()}`;
       break;
-
     case CARDS.CARD_021_ALL_COLORS_SWAP.id:
       use021AllColorsSwap();
       break;
-
     case CARDS.CARD_022_ROTATE_BOARD_180.id: //OK
       message += `\n${use022RotateBoard180()}`;
       break;
-
-    case CARDS.CARD_030_COPY_HAND_CARD.id:
-      message += `\n${use030CopyHandCard(targets[0])}`;
+    case CARDS.CARD_030_COPY_HAND_CARD.id: //OK
+      message += `\n${use030CopyHandCard(targets[0].card)}`;
       break;
-
     case CARDS.CARD_037_TRADE_ONE_DRAW_TWO.id:
-      use037TradeOneDrawTwo();
+      message += `\n${use037TradeOneDrawTwo(targets[0].index, index)}`;
       break;
-
     case CARDS.CARD_038_DOCTOR_POT.id: //OK
       message += `\n${use038DoctorPot()}`;
       break;
-
     default:
       //未実装カード
-
       break;
   }
 
@@ -214,21 +202,32 @@ function use030CopyHandCard(targetCard) {
   const hand = playerHands[currentPlayer];
 
   if (hand.length === 0) {
-    return "コピーできるカードがありません！";
+    return "複製できるカードがありません！";
   }
 
   if (hand.length >= MAX_HAND_SIZE) {
-    return "手札がいっぱいでコピーできません！";
+    return "手札がいっぱいで複製できません！";
   }
 
   hand.push(targetCard);
 
   renderCards();
 
-  return `「${targetCard.name}」をコピーしました！`;
+  return `「${targetCard.name}」を複製しました！`;
 }
 
-function use037TradeOneDrawTwo() {}
+function use037TradeOneDrawTwo(targetIndex, usedCardIndex) {
+  const hand = playerHands[currentPlayer];
+
+  //使用カードが削除された分のインデックスを補正
+  const adjustedIndex =
+    targetIndex > usedCardIndex ? targetIndex - 1 : targetIndex;
+
+  const discardedCard = hand.splice(adjustedIndex, 1)[0];
+  const drawnCards = drawCard(2);
+
+  return `${discardedCard.name}を捨てて、${drawnCards.map((card) => card.name).join("と")}を錬成！`;
+}
 
 function use038DoctorPot() {
   const drawnCards = drawCard(2);
