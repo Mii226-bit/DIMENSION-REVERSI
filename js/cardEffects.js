@@ -38,7 +38,7 @@ function executeCardEffect(card, index, targets = []) {
       break;
 
     case CARDS.CARD_022_ROTATE_BOARD_180.id: //OK
-      use022RotateBoard180();
+      message += `\n${use022RotateBoard180()}`;
       break;
 
     case CARDS.CARD_030_COPY_HAND_CARD.id:
@@ -165,6 +165,11 @@ function use021AllColorsSwap() {
 }
 
 function use022RotateBoard180() {
+  const angles = [90, 180, 270];
+
+  const randomIndex = Math.floor(Math.random() * angles.length);
+  const angle = angles[randomIndex];
+
   //回転後の座標を作成
   const rotateBoard = Array.from({ length: BOARD_SIZE }, () =>
     Array(BOARD_SIZE).fill(EMPTY),
@@ -172,11 +177,23 @@ function use022RotateBoard180() {
 
   for (let row = 0; row < BOARD_SIZE; row++) {
     for (let col = 0; col < BOARD_SIZE; col++) {
-      const newRow = BOARD_SIZE - 1 - row;
-      const newCol = BOARD_SIZE - 1 - col;
+      let newRow;
+      let newCol;
+      if (angle === 90) {
+        newRow = col;
+        newCol = BOARD_SIZE - 1 - row;
+      } else if (angle === 180) {
+        newRow = BOARD_SIZE - 1 - row;
+        newCol = BOARD_SIZE - 1 - col;
+      } else if (angle === 270) {
+        newRow = BOARD_SIZE - 1 - col;
+        newCol = row;
+      }
+
       rotateBoard[newRow][newCol] = boardData[row][col];
     }
   }
+  console.log(angle + "度回転しました！");
 
   for (let row = 0; row < BOARD_SIZE; row++) {
     for (let col = 0; col < BOARD_SIZE; col++) {
@@ -185,6 +202,11 @@ function use022RotateBoard180() {
   }
 
   renderBoard();
+  if (angle !== 180) {
+    return `え？180度じゃなかった？`;
+  }
+
+  return "";
 }
 
 function use030CopyHandCard() {}
