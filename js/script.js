@@ -37,6 +37,7 @@ let selectedCard = null;
 let hasUsedCard = false;
 let hasPlacedPiece = false;
 let isSelectingTarget = false;
+let isSelectingHandTarget = false;
 let selectedTargets = [];
 
 //==== HTML要素の取得 ====
@@ -97,12 +98,11 @@ document.addEventListener("click", (event) => {
   if (event.target.closest(".card")) {
     return;
   }
-
   if (event.target.closest("#board")) {
     return;
   }
 
-  if (selectedCard !== null || isSelectingTarget) {
+  if (selectedCard !== null || isSelectingTarget || isSelectingHandTarget) {
     cancelCardSelection();
     gameMessageText.textContent = "";
   }
@@ -238,6 +238,7 @@ function resetGame() {
   gameOver = false;
   currentPlayer = BLACK;
   isSelectingTarget = false;
+  isSelectingHandTarget = false;
   selectedTargets = [];
 
   initializeHand();

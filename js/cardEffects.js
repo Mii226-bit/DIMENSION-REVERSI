@@ -42,7 +42,7 @@ function executeCardEffect(card, index, targets = []) {
       break;
 
     case CARDS.CARD_030_COPY_HAND_CARD.id:
-      use030CopyHandCard();
+      message += `\n${use030CopyHandCard(targets[0])}`;
       break;
 
     case CARDS.CARD_037_TRADE_ONE_DRAW_TWO.id:
@@ -60,6 +60,7 @@ function executeCardEffect(card, index, targets = []) {
   }
 
   isSelectingTarget = false;
+  isSelectingHandTarget = false;
   selectedTargets = [];
   gameMessageText.textContent = message;
   console.log(message);
@@ -209,7 +210,23 @@ function use022RotateBoard180() {
   return "";
 }
 
-function use030CopyHandCard() {}
+function use030CopyHandCard(targetCard) {
+  const hand = playerHands[currentPlayer];
+
+  if (hand.length === 0) {
+    return "コピーできるカードがありません！";
+  }
+
+  if (hand.length >= MAX_HAND_SIZE) {
+    return "手札がいっぱいでコピーできません！";
+  }
+
+  hand.push(targetCard);
+
+  renderCards();
+
+  return `「${targetCard.name}」をコピーしました！`;
+}
 
 function use037TradeOneDrawTwo() {}
 

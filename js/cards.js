@@ -85,6 +85,11 @@ function updateCardSelection() {
 function selectCard(index) {
   if (gameOver) return;
 
+  if (isSelectingHandTarget) {
+    selectHandTarget(index);
+    return;
+  }
+
   //対象選択中なら一度キャンセル
   if (isSelectingTarget) {
     cancelCardSelection();
@@ -128,10 +133,11 @@ function useCard(index) {
   //カードに選択対象があるかどうかの判別
   if (card.targetType === "none") {
     executeCardEffect(card, index);
+  } else if (card.targetType === "hand_card") {
+    isSelectingHandTarget = true;
+    gameMessageText.textContent = card.messages.select;
   } else {
-    // selectedCard = index;
     isSelectingTarget = true;
-
     gameMessageText.textContent = card.messages.select;
   }
 }
@@ -233,9 +239,39 @@ function selectTarget(row, col) {
   executeCardEffect(card, selectedCard, [{ row, col }]);
 }
 
+// 手札のカードを対象として選択する
+function selectHandTarget(index) {
+  const card = playerHands[currentPlayer][selectedCard];
+
+  if (!card) return;
+
+  switch (card.targetType) {
+    case "hand_card":
+      // 使用中のカード自身は選べない
+      if (index === selectedCard) {
+        gameMessageText.textContent = "使用中のカードはコピーできません！";
+        return;
+      }
+
+      // コピー対象のカードを取得
+      const targetCard = playerHands[currentPlayer][index];
+
+      if (!targetCard) return;
+
+      // 対象カードを効果実行関数へ渡す
+      executeCardEffect(card, selectedCard, [targetCard]);
+      return;
+
+    default:
+      gameMessageText.textContent = "この手札選択効果は未実装です！";
+      return;
+  }
+}
+
 //対象選択中のキャンセル
 function cancelCardSelection() {
   isSelectingTarget = false;
+  isSelectingHandTarget = false;
   selectedCard = null;
   selectedTargets = [];
   updateCardSelection();

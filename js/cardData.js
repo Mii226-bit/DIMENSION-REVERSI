@@ -444,7 +444,7 @@ const CARDS = {
     type: "disruption",
     icon: "▤",
     description: "自分の手札から1枚選び、そのカードをコピーする。",
-    targetType: "own_hand_card",
+    targetType: "hand_card",
 
     messages: {
       select: "コピーするカードを選んでください。",
@@ -552,7 +552,7 @@ const CARDS = {
     type: "special",
     icon: "⇌",
     description: "自分の手札を1枚捨て、新しいカードを2枚引く。",
-    targetType: "own_hand_card",
+    targetType: "hand_card",
 
     messages: {
       select: "交換するカードを1枚選んでください。",
