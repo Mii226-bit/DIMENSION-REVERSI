@@ -27,7 +27,7 @@ function executeCardEffect(card, index, targets = []) {
     case CARDS.CARD_019_RANDOM_HAND_DISCARD.id: //OK
       message += `\n${use019RandomHandDiscard()}`;
       break;
-    case CARDS.CARD_021_ALL_COLORS_SWAP.id:
+    case CARDS.CARD_021_ALL_COLORS_SWAP.id: //OK
       use021AllColorsSwap();
       break;
     case CARDS.CARD_022_ROTATE_BOARD_180.id: //OK
@@ -36,11 +36,15 @@ function executeCardEffect(card, index, targets = []) {
     case CARDS.CARD_030_COPY_HAND_CARD.id: //OK
       message += `\n${use030CopyHandCard(targets[0].card)}`;
       break;
-    case CARDS.CARD_037_TRADE_ONE_DRAW_TWO.id:
+    case CARDS.CARD_037_TRADE_ONE_DRAW_TWO.id: //OK
       message += `\n${use037TradeOneDrawTwo(targets[0].index, index)}`;
       break;
     case CARDS.CARD_038_DOCTOR_POT.id: //OK
       message += `\n${use038DoctorPot()}`;
+    case CARDS.CARD_042_BOARD_EXPANSION:
+      use042BoardExpansion();
+    case CARDS.CARD_043_BOARD_REDUCTION:
+      use043BoardReduction();
       break;
     default:
       //未実装カード
@@ -58,7 +62,6 @@ function use001DimensionInvasion(row, col) {
   boardData[row][col] = currentPlayer;
   renderBoard();
 }
-
 function use003DoubleErasure(targets) {
   targets.forEach((target) => {
     boardData[target.row][target.col] = EMPTY;
@@ -66,7 +69,6 @@ function use003DoubleErasure(targets) {
 
   renderBoard();
 }
-
 function use004RandomReinforcement() {
   const emptyCells = [];
 
@@ -90,14 +92,12 @@ function use004RandomReinforcement() {
 
   renderBoard();
 }
-
 function use008PieceRelocation(from, to) {
   const piece = boardData[from.row][from.col];
   boardData[to.row][to.col] = piece;
   boardData[from.row][from.col] = EMPTY;
   renderBoard();
 }
-
 function use012RandomCornerDrop() {
   const corners = [
     { row: 0, col: 0 },
@@ -125,7 +125,6 @@ function use012RandomCornerDrop() {
 
   return true;
 }
-
 function use019RandomHandDiscard() {
   const opponentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
   const opponentHand = playerHands[opponentPlayer];
@@ -139,7 +138,6 @@ function use019RandomHandDiscard() {
 
   return `相手の「${discardedCard.name}」を破壊した！`;
 }
-
 function use021AllColorsSwap() {
   for (let row = 0; row < BOARD_SIZE; row++) {
     for (let col = 0; col < BOARD_SIZE; col++) {
@@ -152,7 +150,6 @@ function use021AllColorsSwap() {
   }
   renderBoard();
 }
-
 function use022RotateBoard180() {
   const angles = [90, 180, 270];
 
@@ -197,7 +194,6 @@ function use022RotateBoard180() {
 
   return "";
 }
-
 function use030CopyHandCard(targetCard) {
   const hand = playerHands[currentPlayer];
 
@@ -215,7 +211,6 @@ function use030CopyHandCard(targetCard) {
 
   return `「${targetCard.name}」を複製しました！`;
 }
-
 function use037TradeOneDrawTwo(targetIndex, usedCardIndex) {
   const hand = playerHands[currentPlayer];
 
@@ -228,10 +223,15 @@ function use037TradeOneDrawTwo(targetIndex, usedCardIndex) {
 
   return `${discardedCard.name}を捨てて、${drawnCards.map((card) => card.name).join("と")}を錬成！`;
 }
-
 function use038DoctorPot() {
   const drawnCards = drawCard(2);
   const cardNames = drawnCards.map((card) => card.name);
 
   return `${cardNames.join("と")}を引きました！`;
+}
+function use042BoardExpansion() {
+  return resizeBoard(BOARD_SIZE + 2);
+}
+function use043BoardReduction() {
+  return resizeBoard(BOARD_SIZE - 2);
 }

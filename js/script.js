@@ -3,7 +3,9 @@
 const EMPTY = 0;
 const BLACK = 1;
 const WHITE = 2;
-const BOARD_SIZE = 6;
+let BOARD_SIZE = 8;
+const MIN_BOARD_SIZE = 4;
+const MAX_BOARD_SIZE = 10;
 const MAX_HAND_SIZE = 7;
 const INITIAL_HAND_SIZE = 3;
 
@@ -15,9 +17,10 @@ let playerHands = {
 };
 
 //BOARD_SIZEの大きさだけ配列作成
-const boardData = Array.from({ length: BOARD_SIZE }, () =>
+let boardData = Array.from({ length: BOARD_SIZE }, () =>
   Array(BOARD_SIZE).fill(EMPTY),
 );
+
 const DIRECTIONS = [
   [0, -1], //左
   [-1, -1], //左上
@@ -53,28 +56,8 @@ const cardHand = document.getElementById("card-hand");
 const resetButton = document.getElementById("resetButton");
 const endTurnButton = document.getElementById("endTurnButton");
 
-//==== 初期設定 ====
-
-board.style.gridTemplateColumns = `repeat(${BOARD_SIZE}, 1fr)`;
-board.style.gridTemplateRows = `repeat(${BOARD_SIZE}, 1fr)`;
-
-//==== HTMLの作成,イベント登録 ====
-
-for (let row = 0; row < BOARD_SIZE; row++) {
-  for (let col = 0; col < BOARD_SIZE; col++) {
-    const cell = document.createElement("div");
-
-    cell.classList.add("cell");
-
-    cell.dataset.row = row;
-    cell.dataset.col = col;
-
-    cell.addEventListener("click", () => {
-      cellClick(row, col);
-    });
-    board.appendChild(cell);
-  }
-}
+//==== 盤面生成 ====
+createBoardCells();
 
 //リセットボタンのクリックイベント
 resetButton.addEventListener("click", () => {
@@ -244,6 +227,42 @@ function resetGame() {
   initializeHand();
   startTurn();
   renderBoard();
+}
+
+//盤面の大きさ変える関数
+function resizeBoard(newSize) {
+  if (newSize < MIN_BOARD_SIZE || newSize > MAX_BOARD_SIZE) {
+    return false;
+  }
+
+  const oldSize = BOARD_SIZE;
+
+  //新しい二次元配列作成
+  const newBoard = Array.from({ length: newSize }, () =>
+    Array(newSize).fill(EMPTY),
+  );
+
+  const offset = (newSize - oldSize) / 2;
+
+  for (let row = 0; row < oldSize; row++) {
+    for (let col = 0; col < oldSize; col++) {
+      const newRow = row + offset;
+      const newCol = col + offset;
+
+      if (newRow >= 0 && newRow < newSize && newCol >= 0 && newCol < newSize) {
+        newBoard[newRow][newCol] = boardData[row][col];
+      }
+    }
+  }
+
+  //データ更新
+  boardData = newBoard;
+  BOARD_SIZE = newSize;
+
+  createBoardCells();
+  renderBoard();
+
+  return true;
 }
 
 //ゲームの勝敗判定
@@ -420,6 +439,28 @@ function countPieces() {
 //==== 画面表示系 ====
 
 //画面を描画
+function createBoardCells() {
+  board.innerHTML = "";
+
+  board.style.gridTemplateColumns = `repeat(${BOARD_SIZE}, 1fr)`;
+  board.style.gridTemplateRows = `repeat(${BOARD_SIZE}, 1fr)`;
+
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      const cell = document.createElement("div");
+
+      cell.classList.add("cell");
+      cell.dataset.row = row;
+      cell.dataset.col = col;
+
+      cell.addEventListener("click", () => {
+        cellClick(row, col);
+      });
+      board.appendChild(cell);
+    }
+  }
+}
+
 function renderBoard() {
   //cells:マス目の要素を取得してvalueに格納
   const cells = document.querySelectorAll(".cell");

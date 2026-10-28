@@ -620,6 +620,32 @@ const CARDS = {
 
   //     notes: "見た目だけの変更か、ゲームのルールにも影響するかは未定。",
   //   },
+
+  CARD_042_BOARD_EXPANSION: {
+    id: "board_expansion",
+    name: "次元拡張",
+    type: "special",
+    icon: "⤢",
+    description: "盤面を一回り拡大する。\n最大10×10まで。",
+    targetType: "none",
+
+    messages: {
+      success: "次元拡張が発動しました！",
+    },
+  },
+
+  CARD_043_BOARD_REDUCTION: {
+    id: "board_reduction",
+    name: "次元圧縮",
+    type: "special",
+    icon: "⤡",
+    description: "盤面を一回り縮小する。\n外側の駒は消滅する。最小4×4まで。",
+    targetType: "none",
+
+    messages: {
+      success: "次元圧縮が発動しました！",
+    },
+  },
 };
 
 const CARD_LIST = Object.values(CARDS);
