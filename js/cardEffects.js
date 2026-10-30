@@ -41,10 +41,20 @@ function executeCardEffect(card, index, targets = []) {
       break;
     case CARDS.CARD_038_DOCTOR_POT.id: //OK
       message += `\n${use038DoctorPot()}`;
-    case CARDS.CARD_042_BOARD_EXPANSION:
-      use042BoardExpansion();
-    case CARDS.CARD_043_BOARD_REDUCTION:
-      use043BoardReduction();
+      break;
+    case CARDS.CARD_042_BOARD_EXPANSION.id:
+      if (use042BoardExpansion()) {
+        message += `\n盤面が${BOARD_SIZE}×${BOARD_SIZE}になりました！`;
+      } else {
+        message += "これ以上盤面を大きくできません！";
+      }
+      break;
+    case CARDS.CARD_043_BOARD_REDUCTION.id:
+      if (use043BoardReduction()) {
+        message += `\n盤面が${BOARD_SIZE}×${BOARD_SIZE}になりました！`;
+      } else {
+        message += "これ以上盤面を小さくできません！";
+      }
       break;
     default:
       //未実装カード

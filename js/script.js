@@ -208,11 +208,12 @@ function resetGame() {
   gameMessageText.textContent = "";
   gameMessageText.classList.remove("result-message");
 
-  for (let row = 0; row < BOARD_SIZE; row++) {
-    for (let col = 0; col < BOARD_SIZE; col++) {
-      boardData[row][col] = EMPTY;
-    }
-  }
+  BOARD_SIZE = 8;
+
+  boardData = Array.from({ length: BOARD_SIZE }, () =>
+    Array(BOARD_SIZE).fill(EMPTY),
+  );
+
   boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2 - 1] = WHITE;
   boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2] = BLACK;
   boardData[BOARD_SIZE / 2][BOARD_SIZE / 2 - 1] = BLACK;
@@ -223,6 +224,8 @@ function resetGame() {
   isSelectingTarget = false;
   isSelectingHandTarget = false;
   selectedTargets = [];
+
+  createBoardCells();
 
   initializeHand();
   startTurn();
