@@ -98,7 +98,7 @@ const CARDS = {
   //     name: "絶対防壁",
   //     type: "defense",
   //     icon: "⬡",
-  //     description: "駒を1枚選び、1ターンの間無敵にする。",
+  //     description: "駒を1枚選び、無敵にする。(カードの効果を受けない)",
   //     targetType: "piece",
 
   //     messages: {
@@ -198,7 +198,7 @@ const CARDS = {
   //       success: "次元加護が発動しました！",
   //     },
 
-  //     notes: "効果の対象となるターンと防御範囲は未定。",
+  //     notes: "妨害への対策",
   //   },
 
   //   CARD_014_MIRROR_COUNTER: {
@@ -206,7 +206,7 @@ const CARDS = {
   //     name: "鏡界反射",
   //     type: "defense",
   //     icon: "↶",
-  //     description: "次に受ける相手のカード効果を反射する。",
+  //     description: "相手のカード効果を反射する。",
   //     targetType: "none",
 
   //     messages: {
@@ -480,14 +480,14 @@ const CARDS = {
   //     targetType: "none",
 
   //     messages: {
-  //       success: "ドロー封印が発動しました！",
+  //       success: "ドロー封印が発動しました！博士×連勤〇",
   //     },
   //   },
 
   //特殊系
   //   CARD_033_FIVE_TURN_DEADLINE: {
   //     id: "five_turn_deadline",
-  //     name: "終焉の刻限",
+  //     name: "滅びの歌",
   //     type: "special",
   //     icon: "◷",
   //     description: "このカードの発動から5ターン後に試合を強制終了する。",
@@ -646,6 +646,213 @@ const CARDS = {
       success: "次元圧縮が発動しました！",
     },
   },
+  // CARD_044_NUISANCE_BUG: {
+  //   id: "nuisance_bug",
+  //   name: "お邪魔ムシカード",
+  //   type: "special",
+  //   icon: "🐛",
+  //   description: "使っても何も起こらない。",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "Thank you for playing!",
+  //   },
+  // },
+
+  // CARD_045_CARD_EATING_BUG: {
+  //   id: "card_eating_bug",
+  //   name: "カード食いムシ",
+  //   type: "special",
+  //   icon: "🐛",
+  //   description:
+  //     "自分にカード食いムシが取りつく。\n毎ターン終了時、自分の手札をランダムに1枚失う。\n手札がない場合は何も起こらない。",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "カード食いムシが取りついた！",
+  //   },
+  // },
+
+  // CARD_046_PIECE_EATING_BUG: {
+  //   id: "piece_eating_bug",
+  //   name: "駒食いムシ",
+  //   type: "special",
+  //   icon: "🐜",
+  //   description:
+  //     "自分に駒食いムシが取りつく。\n毎ターン終了時、自分の駒がランダムに1枚消滅する。\n駒がない場合は何も起こらない。",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "駒食いムシが取りついた！",
+  //   },
+  // },
+
+  // CARD_047_TRASH_CAN: {
+  //   id: "trash_can",
+  //   name: "ゴミ箱",
+  //   type: "special",
+  //   icon: "🗑️",
+  //   description: "自分の手札を1枚選んで捨てる。",
+  //   targetType: "own_card",
+
+  //   messages: {
+  //     success: "選んだカードを捨てました！",
+  //   },
+  // },
+
+  // CARD_048_EXODIA: {
+  //   id: "exodia",
+  //   name: "えぐぞでぃあ",
+  //   type: "special",
+  //   icon: "🧩",
+  //   description:
+  //     "手札にこのカードを5枚集めると、\n5枚を消費して「えぐぞでぃあ・完成体」に融合する。\n融合前は使用できない。",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "5枚のカードが融合した！",
+  //     failure: "融合には「えぐぞでぃあ」が5枚必要です。",
+  //   },
+  // },
+
+  // CARD_049_EXODIA_COMPLETE: {
+  //   id: "exodia_complete",
+  //   name: "えぐぞでぃあ・完成体",
+  //   type: "special",
+  //   icon: "👑",
+  //   description:
+  //     "「えぐぞでぃあ」5枚の融合でのみ入手できる。\n使用すると、盤面の状況に関係なく勝利する。",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "えぐぞでぃあ降臨！ エクストラウィン！",
+  //   },
+  // },
+
+  // CARD_050_CARD_PROTECTION: {
+  //   id: "card_protection",
+  //   name: "カード保護",
+  //   type: "special",
+  //   icon: "🛡️",
+  //   description:
+  //     "自分の手札を1枚選んで保護する。\nそのカードが手札にある間、破壊・奪取・交換などの\nカード干渉効果を受けなくなる。通常の使用は可能。",
+  //   targetType: "own_card",
+
+  //   messages: {
+  //     success: "選んだカードを保護しました！",
+  //   },
+  // },
+
+  // CARD_051_HAND_LIMIT_UP: {
+  //   id: "hand_limit_up",
+  //   name: "手札上限UP",
+  //   type: "special",
+  //   icon: "📈",
+  //   description: "自分の手札上限を2枚増やす。",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "自分の手札上限が2枚増えました！",
+  //   },
+  // },
+
+  // CARD_052_HAND_LIMIT_DOWN: {
+  //   id: "hand_limit_down",
+  //   name: "手札上限DOWN",
+  //   type: "special",
+  //   icon: "📉",
+  //   description:
+  //     "相手の手札上限を2枚減らす。最低1枚まで。\n上限を超えた分は、相手が選んで捨てる。",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "相手の手札上限が2枚減りました！",
+  //   },
+  // },
+
+  // CARD_053_ALL_EFFECT_RESET: {
+  //   id: "all_effect_reset",
+  //   name: "全効果無効化",
+  //   type: "special",
+  //   icon: "🚫",
+  //   description:
+  //     "現在継続している全てのカード効果を解除する。\n手札上限の変更やカード保護も解除される。\nすでに消滅した駒や消費したカードなどは元に戻らない。",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "継続中のカード効果が全て解除されました！",
+  //   },
+  // },
+
+  // CARD_054_OPPONENT_PIECE_DISPEL: {
+  //   id: "opponent_piece_dispel",
+  //   name: "駒効果解除",
+  //   type: "special",
+  //   icon: "✨",
+  //   description:
+  //     "相手の駒を1枚選ぶ。\nその駒に付与されている全ての効果を解除する。",
+  //   targetType: "opponent_piece",
+
+  //   messages: {
+  //     success: "相手の駒に付与された効果を解除しました！",
+  //   },
+  // },
+
+  // CARD_055_NORMAL_LUCKY_BAG: {
+  //   id: "normal_lucky_bag",
+  //   name: "通常福袋",
+  //   type: "special",
+  //   icon: "🛍️",
+  //   description:
+  //     "対象選択が不要なカードの中から、\nランダムに1つの効果を即座に発動する。\n福袋系・融合素材・完成体は抽選対象外。",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "通常福袋を開けました！",
+  //   },
+  // },
+
+  // CARD_056_STINKY_LUCKY_BAG: {
+  //   id: "stinky_lucky_bag",
+  //   name: "臭う福袋",
+  //   type: "special",
+  //   icon: "🤢",
+  //   description:
+  //     "カード食いムシ・駒食いムシ・手札上限DOWN・\n盲目のいずれかがランダムで発動する。\n効果を受けるプレイヤーも自分か相手からランダムに決まる。\n盲目の場合は両プレイヤーが効果を受ける。",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "臭う福袋を開けてしまった……！",
+  //   },
+  // },
+
+  // CARD_057_PREMIUM_LUCKY_BAG: {
+  //   id: "premium_lucky_bag",
+  //   name: "高級福袋",
+  //   type: "special",
+  //   icon: "🎁",
+  //   description:
+  //     "以下のいずれかがランダムで発動する。\n・自分の手札上限を4枚増やす\n・上限まで最大3枚カードを引く\n・自分に付与された不利な継続効果を全て解除する",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "高級福袋を開けました！ 豪華な効果が発動！",
+  //   },
+  // },
+
+  // CARD_058_BLINDNESS: {
+  //   id: "blindness",
+  //   name: "盲目",
+  //   type: "special",
+  //   icon: "🙈",
+  //   description:
+  //     "発動後、3ターンの間、両プレイヤーの手札が\n持ち主にも「❓」と表示され、名前・説明を確認できなくなる。\nカードの選択・使用は通常通り行える。",
+  //   targetType: "none",
+
+  //   messages: {
+  //     success: "視界が閉ざされた！ 全ての手札が「❓」になった！",
+  //   },
+  // },
 };
 
 const CARD_LIST = Object.values(CARDS);
