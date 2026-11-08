@@ -66,8 +66,8 @@
 
 /* カード効果で盤面の駒を選択している状態 */
 #board.target-selecting .cell {
-  filter: brightness(0.5);
-  transition: filter 0.2s ease;
+  filter: brightness(0.65);
+  transition: filter 1s ease;
 }
 
 /* 選択できるマスを明るくする */
@@ -79,6 +79,10 @@
 #board.target-selecting .cell.selectable-target .piece {
   box-shadow:
     /* 0 0 10px #65f5ff, */
-    0 0 5px #65f5ff,
-    0 0 12px rgba(101, 245, 255, 0.45);
+    0 0 0 2px rgba(222, 253, 46, 0.75),
+    0 0 8px rgba(222, 253, 46, 0.45);
+
+  transition:
+    transform 1s ease,
+    box-shadow 1s ease;
 }
