@@ -64,6 +64,7 @@ function executeCardEffect(card, index, targets = []) {
   isSelectingTarget = false;
   isSelectingHandTarget = false;
   selectedTargets = [];
+  updateTargetHighlights();
   gameMessageText.textContent = message;
   console.log(message);
 }

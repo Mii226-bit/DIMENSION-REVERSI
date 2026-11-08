@@ -139,6 +139,8 @@ function useCard(index) {
   } else {
     isSelectingTarget = true;
     gameMessageText.textContent = card.messages.select;
+
+    updateTargetHighlights();
   }
 }
 
@@ -180,6 +182,8 @@ function selectTarget(row, col) {
 
       selectedTargets.push({ row, col });
 
+      updateTargetHighlights();
+
       if (selectedTargets.length === 2) {
         executeCardEffect(card, selectedCard, selectedTargets);
         return;
@@ -214,6 +218,8 @@ function selectTarget(row, col) {
 
         selectedTargets.push({ row, col });
         gameMessageText.textContent = "移動先の空きマスを選んでください！";
+
+        updateTargetHighlights();
         return;
       }
 
@@ -277,6 +283,7 @@ function cancelCardSelection() {
   selectedCard = null;
   selectedTargets = [];
   updateCardSelection();
+  updateTargetHighlights();
 }
 
 //カード消費executeCardEffectsから呼ばれてます

@@ -116,60 +116,6 @@ h1 {
   }
 }
 
-/* 手札エリア */
-#card-hand {
-  display: flex;
-  gap: 0.5rem;
-
-  width: 90vw;
-  max-width: 500px;
-
-  overflow-x: auto;
-  padding: 0.6rem 0.5rem 0.8rem;
-
-  /* 箱全体の大きさの設定 */
-  box-sizing: border-box;
-
-  scroll-snap-type: x proximity;
-}
-
-.card {
-  flex: 0 0 6rem;
-
-  aspect-ratio: 3/4;
-
-  /* 見た目 */
-  background: linear-gradient(135deg, #51328c, #24143f);
-  border: 2px solid #a78bfa;
-  border-radius: 0.7rem;
-  color: white;
-
-  /* 文字の配置 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  padding: 0.5rem;
-  box-sizing: border-box;
-
-  font-size: 0.8rem;
-  font-weight: bold;
-
-  /* スクロール時の位置合わせ */
-  scroll-snap-align: start;
-
-  /* アニメーション */
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.card.selected {
-  outline: 3px solid #ffd700;
-  outline-offset: -3px;
-}
-
 .game-buttons {
   display: flex;
   justify-content: center;
@@ -207,15 +153,6 @@ h1 {
 
 /* マウス操作できる環境 */
 @media (hover: hover) and (pointer: fine) {
-  .card {
-    cursor: pointer;
-  }
-
-  .card:hover {
-    transform: translateY(-0.3rem);
-    box-shadow: 0 0.4rem 1rem rgba(167, 139, 250, 0.4);
-  }
-
   #resetButton:hover {
     background-color: #d1d5db;
   }

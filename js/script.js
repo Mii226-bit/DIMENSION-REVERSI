@@ -36,10 +36,10 @@ const DIRECTIONS = [
 
 let gameOver = false;
 let currentPlayer = BLACK;
-let selectedCard = null;
+let selectedCard = null; //選んだカードの場所
 let hasUsedCard = false;
 let hasPlacedPiece = false;
-let isSelectingTarget = false;
+let isSelectingTarget = false; //選択対象の駒があるかどうか
 let isSelectingHandTarget = false;
 let selectedTargets = [];
 
@@ -495,6 +495,7 @@ function renderBoard() {
   });
   showValidMoves();
   updateGameInfo();
+  updateTargetHighlights();
 }
 
 //おけるマスを表示する
