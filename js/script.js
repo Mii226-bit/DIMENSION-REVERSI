@@ -46,9 +46,9 @@ let selectedTargets = [];
 //==== HTML要素の取得 ====
 
 //ゲーム情報
-const blackCountText = document.getElementById("black-count");
+// const blackCountText = document.getElementById("black-count");
 const turnInfoText = document.getElementById("turn-info");
-const whiteCountText = document.getElementById("white-count");
+// const whiteCountText = document.getElementById("white-count");
 const gameMessageText = document.getElementById("game-message");
 // 盤面の要素を取得
 const board = document.getElementById("board");
@@ -515,16 +515,19 @@ function showValidMoves() {
 
 //ゲーム情報の更新
 function updateGameInfo() {
-  const result = countPieces();
+  // const result = countPieces();
 
-  blackCountText.textContent = `黒：${result.blackCount}枚`;
-  whiteCountText.textContent = `白：${result.whiteCount}枚`;
+  // blackCountText.textContent = `黒：${result.blackCount}枚`;
+  // whiteCountText.textContent = `白：${result.whiteCount}枚`;
 
   turnInfoText.textContent = `今のターン：${currentPlayer === BLACK ? "黒" : "白"}`;
 
-  console.log(
-    "黒の枚数：" + result.blackCount + "\n白の枚数：" + result.whiteCount,
-  );
+  // console.log(
+  //   "黒の枚数：" + result.blackCount + "\n白の枚数：" + result.whiteCount,
+  // );
+
+  //プレイヤー情報更新
+  updatePlayerInfo();
 }
 
 //初期状態の盤面を描画

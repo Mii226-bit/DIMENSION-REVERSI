@@ -1,3 +1,4 @@
+//背景色暗くしたりするやつ
 function updateTargetHighlights() {
   board.classList.toggle("target-selecting", isSelectingTarget);
 
@@ -50,4 +51,48 @@ function updateTargetHighlights() {
       cell.classList.add("selectable-target");
     }
   });
+}
+
+// プレイヤー情報を更新する
+function updatePlayerInfo() {
+  const result = countPieces();
+
+  // 現在操作しているプレイヤーと相手
+  const myPlayer = currentPlayer;
+  const opponentPlayer = currentPlayer === BLACK ? WHITE : BLACK;
+
+  // 上側：相手プレイヤー
+  renderPlayerInfo("top", opponentPlayer, result);
+
+  // 下側：現在のプレイヤー
+  renderPlayerInfo("bottom", myPlayer, result);
+}
+
+// 指定されたプレイヤーの情報を表示する
+function renderPlayerInfo(position, player, pieceCounts) {
+  const pieceElement = document.getElementById(`${position}-player-piece`);
+  const pieceCountElement = document.getElementById(`${position}-piece-count`);
+  const handCountElement = document.getElementById(`${position}-hand-count`);
+
+  // 駒の色
+  const isBlack = player === BLACK;
+
+  pieceElement.classList.toggle("black", isBlack);
+  pieceElement.classList.toggle("white", !isBlack);
+
+  // 駒の枚数
+  const pieceCount = isBlack ? pieceCounts.blackCount : pieceCounts.whiteCount;
+
+  pieceCountElement.textContent = `${isBlack ? "黒" : "白"}の駒：${pieceCount}枚`;
+
+  // 手札の枚数
+  const handCount = playerHands[player].length;
+
+  handCountElement.textContent = `${handCount}/${MAX_HAND_SIZE}`;
+
+  // 手札がいっぱいならバッジの色を変更
+  handCountElement.parentElement.classList.toggle(
+    "hand-full",
+    handCount >= MAX_HAND_SIZE,
+  );
 }

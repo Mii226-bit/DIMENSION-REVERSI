@@ -86,3 +86,99 @@
     transform 1s ease,
     box-shadow 1s ease;
 }
+
+/* プレイヤー情報 */
+.player-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+
+  width: 90vw;
+  max-width: 500px;
+  box-sizing: border-box;
+
+  padding: 0.65rem 0.85rem;
+  margin: 0.5rem 0;
+
+  background: #293249;
+  border: 1px solid #46506d;
+  border-radius: 0.7rem;
+
+  color: white;
+}
+
+/* 駒とプレイヤー名 */
+.player-details {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+/* 黒・白の駒アイコン */
+.player-piece {
+  flex-shrink: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+}
+
+.player-piece.black {
+  background: #101010;
+  border: 1px solid #777;
+}
+
+.player-piece.white {
+  background: white;
+  border: 1px solid #ccc;
+}
+
+/* プレイヤー名と駒数 */
+.player-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.player-name {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.player-piece-count {
+  font-size: 0.78rem;
+  color: #b6c4da;
+}
+
+/* 手札枚数バッジ */
+.hand-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+
+  padding: 0.3rem 0.7rem;
+
+  background: #49346d;
+  border: 1px solid #8465b5;
+  border-radius: 999px;
+
+  font-size: 0.85rem;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+  color: #f4eaff;
+}
+
+/* 手札が最大枚数に達した状態 */
+.hand-count.hand-full {
+  background: #82334b;
+  border-color: #ed829d;
+}
+
+.hand-count-icon {
+  font-size: 1rem;
+  color: #d9c8ff;
+}

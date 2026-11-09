@@ -9,34 +9,68 @@
     <link rel="stylesheet" href="css/card.css" />
   </head>
   <body>
-    <h1>超次元オセロ</h1>
+    <div id="game-container">
+      <div id="game-header">
+        <h1>超次元オセロ</h1>
 
-    <!-- ゲーム情報 -->
-    <div class="game-info">
-      <p id="black-count"></p>
-      <p id="turn-info"></p>
-      <p id="white-count"></p>
-    </div>
+        <p id="turn-info"></p>
+      </div>
 
-    <!-- パスとかのゲームのメッセージ -->
-    <p id="game-message"></p>
+      <!-- 相手のプレイヤー情報 -->
+      <div class="player-info" id="top-player-info">
+        <div id="opponent-hand"></div>
+        <div class="player-details">
+          <span class="player-piece" id="top-player-piece"></span>
 
-    <!-- 盤面 -->
-    <div id="board"></div>
+          <div class="player-text">
+            <span class="player-name">ENEMY</span>
+            <span class="player-piece-count" id="top-piece-count"></span>
+          </div>
+        </div>
 
-    <!-- 手札 -->
-    <div id="card-hand"></div>
+        <div class="hand-count">
+          <span class="hand-count-icon">▤</span>
+          <span id="top-hand-count">0/7</span>
+        </div>
+      </div>
 
-    <div class="game-buttons">
-      <!-- リセットボタン -->
-      <button id="resetButton">もう一度遊ぶ</button>
-      <!-- ターン終了ボタン -->
-      <button id="endTurnButton">ターン終了</button>
+      <!-- パスとかのゲームのメッセージ -->
+      <p id="game-message"></p>
+
+      <!-- 盤面 -->
+      <div id="board"></div>
+
+      <!-- 自分のプレイヤー情報 -->
+      <div class="player-info" id="bottom-player-info">
+        <div class="player-details">
+          <span class="player-piece" id="bottom-player-piece"></span>
+
+          <div class="player-text">
+            <span class="player-name">YOU</span>
+            <span class="player-piece-count" id="bottom-piece-count"></span>
+          </div>
+        </div>
+
+        <div class="hand-count">
+          <span class="hand-count-icon">▤</span>
+          <span id="bottom-hand-count">0/7</span>
+        </div>
+      </div>
+
+      <!-- 手札 -->
+      <div id="card-hand"></div>
+
+      <div class="game-buttons">
+        <!-- リセットボタン -->
+        <button id="resetButton">もう一度遊ぶ</button>
+        <!-- ターン終了ボタン -->
+        <button id="endTurnButton">ターン終了</button>
+      </div>
     </div>
     <script src="js/cardData.js"></script>
     <script src="js/cardEffects.js"></script>
     <script src="js/cards.js"></script>
-    <script src="js/script.js"></script>
     <script src="js/cardUI.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>
