@@ -28,9 +28,32 @@ h1 {
   margin: 0 0 0rem;
 }
 
+/* ゲーム画面全体 */
+#game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+
+  /* パディングとか込みで */
+  box-sizing: border-box;
+  padding: 0.25rem 0.5rem 0.5rem;
+}
+
+/* ヘッダー */
+#game-header {
+  text-align: center;
+}
+
+#game-header h1 {
+  margin: 0;
+  font-size: clamp(1.2rem, 4vw, 1.7rem);
+}
+
 #turn-info {
-  font-weight: bold;
-  font-size: 1.1em;
+  margin: 0.15rem 0;
+  font-size: 0.85rem;
 }
 
 #game-message {
@@ -52,6 +75,14 @@ h1 {
   font-weight: bold;
 }
 
+/* 盤面周辺 */
+.board-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 #board {
   display: grid;
 
@@ -61,6 +92,7 @@ h1 {
   gap: 1.2px;
   background-color: black;
 }
+
 /* マス */
 .cell {
   background-color: #14823b;

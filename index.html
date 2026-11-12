@@ -10,6 +10,14 @@
   </head>
   <body>
     <div id="game-container">
+      <!--ターン開始時の演出、後からやる-->
+      <div id="turn-overlay" class="turn-overlay" hidden>
+        <div class="turn-banner">
+          <span id="turn-banner-text"></span>
+          <span id="turn-number"></span>
+        </div>
+      </div>
+
       <div id="game-header">
         <h1>超次元オセロ</h1>
 
@@ -17,48 +25,51 @@
       </div>
 
       <!-- 相手のプレイヤー情報 -->
-      <div class="player-info" id="top-player-info">
+
+      <div class="board-area">
         <div id="opponent-hand"></div>
-        <div class="player-details">
-          <span class="player-piece" id="top-player-piece"></span>
+        <div class="player-info" id="top-player-info">
+          <div class="player-details">
+            <span class="player-piece" id="top-player-piece"></span>
 
-          <div class="player-text">
-            <span class="player-name">ENEMY</span>
-            <span class="player-piece-count" id="top-piece-count"></span>
+            <div class="player-text">
+              <span class="player-name">ENEMY</span>
+              <span class="player-piece-count" id="top-piece-count"></span>
+            </div>
+          </div>
+
+          <div class="hand-count">
+            <span class="hand-count-icon">▤</span>
+            <span id="top-hand-count">0/7</span>
           </div>
         </div>
 
-        <div class="hand-count">
-          <span class="hand-count-icon">▤</span>
-          <span id="top-hand-count">0/7</span>
-        </div>
-      </div>
+        <!-- パスとかのゲームのメッセージ -->
+        <p id="game-message"></p>
 
-      <!-- パスとかのゲームのメッセージ -->
-      <p id="game-message"></p>
+        <!-- 盤面 -->
+        <div id="board"></div>
 
-      <!-- 盤面 -->
-      <div id="board"></div>
+        <!-- 自分のプレイヤー情報 -->
+        <div class="player-info" id="bottom-player-info">
+          <div class="player-details">
+            <span class="player-piece" id="bottom-player-piece"></span>
 
-      <!-- 自分のプレイヤー情報 -->
-      <div class="player-info" id="bottom-player-info">
-        <div class="player-details">
-          <span class="player-piece" id="bottom-player-piece"></span>
+            <div class="player-text">
+              <span class="player-name">YOU</span>
+              <span class="player-piece-count" id="bottom-piece-count"></span>
+            </div>
+          </div>
 
-          <div class="player-text">
-            <span class="player-name">YOU</span>
-            <span class="player-piece-count" id="bottom-piece-count"></span>
+          <div class="hand-count">
+            <span class="hand-count-icon">▤</span>
+            <span id="bottom-hand-count">0/7</span>
           </div>
         </div>
 
-        <div class="hand-count">
-          <span class="hand-count-icon">▤</span>
-          <span id="bottom-hand-count">0/7</span>
-        </div>
+        <!-- 手札 -->
+        <div id="card-hand"></div>
       </div>
-
-      <!-- 手札 -->
-      <div id="card-hand"></div>
 
       <div class="game-buttons">
         <!-- リセットボタン -->
