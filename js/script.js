@@ -47,7 +47,7 @@ let selectedTargets = [];
 
 //ゲーム情報
 // const blackCountText = document.getElementById("black-count");
-const turnInfoText = document.getElementById("turn-info");
+// const turnInfoText = document.getElementById("turn-info");
 // const whiteCountText = document.getElementById("white-count");
 const gameMessageText = document.getElementById("game-message");
 // 盤面の要素を取得
@@ -277,7 +277,7 @@ function endGame(reason = "normal") {
 
   gameMessageText.classList.add("result-message");
 
-  turnInfoText.textContent = "ゲーム終了！";
+  // turnInfoText.textContent = "ゲーム終了！";
 
   //駒が0枚でターン終了された
   if (reason === "noPieces") {
@@ -520,7 +520,7 @@ function updateGameInfo() {
   // blackCountText.textContent = `黒：${result.blackCount}枚`;
   // whiteCountText.textContent = `白：${result.whiteCount}枚`;
 
-  turnInfoText.textContent = `今のターン：${currentPlayer === BLACK ? "黒" : "白"}`;
+  // turnInfoText.textContent = `今のターン：${currentPlayer === BLACK ? "黒" : "白"}`;
 
   // console.log(
   //   "黒の枚数：" + result.blackCount + "\n白の枚数：" + result.whiteCount,

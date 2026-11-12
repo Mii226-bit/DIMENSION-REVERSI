@@ -9,24 +9,19 @@ body {
   min-height: 100vh;
 }
 
-h1 {
+/* h1 {
   margin: 1rem 0 0;
   font-size: clamp(1.8rem, 6vw, 2.5rem);
-}
+} */
 
-.game-info {
-  /* 横ならべ */
+/* .game-info {
   display: flex;
-  /* 画面いっぱい */
   justify-content: space-between;
-  /* 高さをそろえる */
   align-items: center;
-
   width: 90vw;
   max-width: 500px;
-
   margin: 0 0 0rem;
-}
+} */
 
 /* ゲーム画面全体 */
 #game-container {
@@ -42,11 +37,11 @@ h1 {
 }
 
 /* ヘッダー */
-#game-header {
+/* #game-header {
   text-align: center;
-}
+} */
 
-#game-header h1 {
+/* #game-header h1 {
   margin: 0;
   font-size: clamp(1.2rem, 4vw, 1.7rem);
 }
@@ -54,7 +49,7 @@ h1 {
 #turn-info {
   margin: 0.15rem 0;
   font-size: 0.85rem;
-}
+} */
 
 #game-message {
   white-space: pre-line;
