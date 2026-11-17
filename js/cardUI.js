@@ -83,7 +83,7 @@ function renderPlayerInfo(position, player, pieceCounts) {
   // 駒の枚数
   const pieceCount = isBlack ? pieceCounts.blackCount : pieceCounts.whiteCount;
 
-  pieceCountElement.textContent = `${isBlack ? "黒" : "白"}の駒：${pieceCount}枚`;
+  pieceCountElement.textContent = `${pieceCount}枚`;
 
   // 手札の枚数
   const handCount = playerHands[player].length;
