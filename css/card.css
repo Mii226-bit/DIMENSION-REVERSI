@@ -187,3 +187,40 @@
   font-size: 1rem;
   color: #d9c8ff;
 }
+
+/* 相手の手札エリア */
+#opponent-hand {
+  display: flex;
+  justify-content: safe center;
+  align-items: center;
+  gap: 0.3rem;
+
+  width: 90vw;
+  max-width: 500px;
+  box-sizing: border-box;
+
+  min-height: 3.5rem;
+  padding: 0.2rem;
+
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+#opponent-hand::-webkit-scrollbar {
+  display: none;
+}
+
+/* 裏向きカード */
+.opponent-card {
+  flex: 0 0 3.8rem;
+  aspect-ratio: 3 / 4;
+
+  background: linear-gradient(135deg, #51328c, #24143f);
+
+  border: 2px solid #a78bfa;
+  border-radius: 0.4rem;
+
+  box-shadow: 0 0 5px rgba(167, 139, 250, 0.4);
+
+  box-sizing: border-box;
+}

@@ -70,6 +70,7 @@ function renderCards() {
   });
 
   updateCardSelection();
+  updatePlayerInfo();
 }
 
 //カード選択状態を反映

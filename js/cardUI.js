@@ -66,6 +66,8 @@ function updatePlayerInfo() {
 
   // 下側：現在のプレイヤー
   renderPlayerInfo("bottom", myPlayer, result);
+
+  renderOpponentHand();
 }
 
 // 指定されたプレイヤーの情報を表示する
@@ -95,4 +97,19 @@ function renderPlayerInfo(position, player, pieceCounts) {
     "hand-full",
     handCount >= MAX_HAND_SIZE,
   );
+}
+
+function renderOpponentHand() {
+  const opponentHand = document.getElementById("opponent-hand");
+
+  const opponentPlayer = currentPlayer == BLACK ? WHITE : BLACK;
+  const handCount = playerHands[opponentPlayer].length;
+
+  opponentHand.replaceChildren();
+  for (let i = 0; i < handCount; i++) {
+    const card = document.createElement("div");
+    card.classList.add("opponent-card");
+
+    opponentHand.appendChild(card);
+  }
 }
