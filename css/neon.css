@@ -1,0 +1,383 @@
+/* 既存 style.css / card.css の後に読み込む。ゲームロジックには触れない。 */
+:root {
+  --violet: #a35cff;
+  --magenta: #f33dff;
+  --cyan: #55eaff;
+  --panel: #0b0826;
+  color-scheme: dark;
+}
+body {
+  background:
+    radial-gradient(ellipse at 12% 70%, #50147866, transparent 35%),
+    radial-gradient(ellipse at 86% 28%, #4420a466, transparent 35%),
+    linear-gradient(145deg, #020417, #0a0324 45%, #030415);
+  color: #f8f7ff;
+  font-family: system-ui, sans-serif;
+  min-height: 100dvh;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.45;
+  background-image:
+    radial-gradient(circle, #fff 0 1px, transparent 1.5px),
+    radial-gradient(circle, #6de7ff 0 1px, transparent 1.5px),
+    radial-gradient(circle, #b45cff 0 1.5px, transparent 2px);
+  background-position:
+    13px 29px,
+    78px 130px,
+    150px 60px;
+  background-size:
+    173px 191px,
+    227px 257px,
+    311px 293px;
+}
+#game-container {
+  --ui-width: min(calc(100vw - 24px), 500px, max(200px, calc(100dvh - 300px)));
+  position: relative;
+  box-sizing: border-box;
+  width: calc(var(--ui-width) + 16px);
+  max-width: 100%;
+  padding: 6px 8px;
+  margin: 4px auto;
+  border: 1px solid #8aa1ff;
+  border-radius: 16px;
+  background: linear-gradient(#05041af0, #05031bfa);
+  box-shadow:
+    0 0 12px #8457ff,
+    inset 0 0 16px #5d43ff30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.board-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+}
+#board,
+#game-message,
+.player-info,
+#opponent-hand,
+#card-hand,
+.game-buttons,
+.hand-scroll {
+  width: var(--ui-width);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#board {
+  aspect-ratio: 1;
+  border: 2px solid var(--cyan);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #00170b;
+  box-shadow:
+    0 0 9px #26dcff,
+    inset 0 0 12px #26dcff;
+  gap: 1px;
+}
+#board .cell {
+  background: #07843d;
+  min-width: 0;
+  min-height: 0;
+}
+#board .piece {
+  box-shadow: 0 3px 6px #0007;
+}
+#board .piece.black,
+.player-piece.black {
+  background: radial-gradient(circle at 34% 28%, #363a4b, #020207 58%, #000);
+}
+#board .piece.white,
+.player-piece.white {
+  background: radial-gradient(circle at 34% 26%, #fff, #f8f8fc 60%, #b3b6cb);
+}
+#board .valid-move::after {
+  background: #beffdbb8;
+  box-shadow: 0 0 7px #9fffca99;
+}
+/* 対象選択の既存ルールと色はそのまま。 */
+.player-info {
+  margin: 0;
+  padding: 3px 6px;
+  min-height: 34px;
+  gap: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #b95dff;
+  border-radius: 7px;
+  background: linear-gradient(110deg, #100b35, #08061d);
+  box-shadow: inset 0 0 8px #a35cff33;
+}
+.player-details {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border: 1px solid #726398;
+  border-radius: 999px;
+  background: #252044;
+}
+.player-text {
+  display: flex;
+  align-items: center;
+}
+.player-piece {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.player-piece-count {
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.player-effects {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  justify-content: safe flex-end;
+  gap: 4px;
+  overflow-x: auto;
+}
+.effect-icon {
+  flex: 0 0 25px;
+  height: 25px;
+  color: white;
+  background: #38245d;
+  border: 1px solid #a35cff;
+  border-radius: 4px;
+}
+.hand-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-shrink: 0;
+  padding: 3px 8px;
+  border: 1px solid #ec44ff;
+  border-radius: 999px;
+  background: linear-gradient(100deg, #7b098366, #220b49);
+  box-shadow: inset 0 0 8px #f636ff44;
+  font-weight: 700;
+  font-size: 13px;
+  color: #f4eaff;
+}
+.hand-count.hand-full {
+  border-color: #fff36d;
+  background: #584113;
+  box-shadow: 0 0 7px #ffdc3577;
+}
+.hand-count-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+#opponent-hand {
+  display: flex;
+  justify-content: safe center;
+  align-items: center;
+  gap: 4px;
+  min-height: 52px;
+  padding: 4px;
+  overflow-x: auto;
+  background: linear-gradient(180deg, #5c158f22, #09041e99);
+  scrollbar-width: none;
+}
+.opponent-card {
+  flex: 0 0 min(36px, calc((var(--ui-width) - 36px) / 7));
+  aspect-ratio: 0.82;
+  display: grid;
+  place-items: center;
+  position: relative;
+  border: 1px solid #b77aff;
+  border-radius: 5px;
+  background:
+    linear-gradient(
+      135deg,
+      transparent 12%,
+      #5e197d 12% 16%,
+      transparent 16% 84%,
+      #802b9d 84% 88%,
+      transparent 88%
+    ),
+    radial-gradient(circle, #872cbfbf, #170833 70%);
+  box-shadow:
+    0 0 5px #9d55ff,
+    inset 0 0 9px #44156a;
+}
+.opponent-card::before {
+  content: "";
+  width: 37%;
+  aspect-ratio: 1;
+  border: 1px solid #ce6cff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #cd55ff;
+  background:
+    linear-gradient(0deg, transparent 46%, #c45cff 46% 54%, transparent 54%),
+    linear-gradient(90deg, transparent 46%, #c45cff 46% 54%, transparent 54%);
+}
+#game-message {
+  min-height: 56px;
+  padding: 6px 10px;
+  margin: 3px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 600;
+  border: 1px solid #8764ff;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #101034fa, #050418f5);
+  box-shadow: inset 0 0 12px #121943;
+}
+#card-hand {
+  display: flex;
+  gap: 6px;
+  padding: 6px 4px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+#card-hand .card {
+  flex: 0 0 78px;
+  aspect-ratio: 3/4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  align-items: center;
+  border: 1px solid #a95eff;
+  border-radius: 7px;
+  background: linear-gradient(165deg, #2d0b58, #100422);
+  box-shadow: inset 0 0 10px #40117a;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px;
+}
+#card-hand .card.selected {
+  border-color: #ff6cff;
+  outline: 2px solid #ff6cff;
+  outline-offset: -2px;
+  box-shadow: inset 0 0 12px #6c1582;
+}
+.card-art {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  background: radial-gradient(circle, #f25eff55, transparent 70%);
+  color: #f28dff;
+  font-size: 28px;
+  text-shadow: 0 0 8px #df39ff;
+}
+.card.defense .card-art {
+  color: #5cecff;
+}
+.card.disruption .card-art {
+  color: #ffcf75;
+}
+.card.special .card-art {
+  color: #b9a0ff;
+}
+.card-label {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+.hand-scroll {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 24px;
+  align-items: center;
+}
+.hand-scroll #card-hand {
+  width: 100%;
+  min-width: 0;
+}
+.carousel-arrow {
+  border: 0;
+  background: transparent;
+  color: #c3a0ff;
+  font-size: 24px;
+  padding: 0;
+  min-height: 44px;
+  cursor: pointer;
+}
+.carousel-arrow:disabled {
+  opacity: 0.25;
+}
+.game-buttons {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+}
+.game-buttons button {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 5px 7px;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#resetButton,
+#gameDetailsButton {
+  border: 1px solid #b7c8ff;
+  background: linear-gradient(120deg, #384461, #15152c);
+  color: white;
+}
+#endTurnButton {
+  flex: 1.3;
+  border: 1px solid #f668ff;
+  background: linear-gradient(110deg, #6112ae, #a709bb 58%, #47128f);
+  box-shadow: inset 0 0 12px #e84bff66;
+  color: white;
+}
+.game-buttons button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+[hidden] {
+  display: none !important;
+}
+@media (max-height: 700px) {
+  #game-container {
+    --ui-width: min(
+      calc(100vw - 24px),
+      500px,
+      max(200px, calc(100dvh - 290px))
+    );
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #game-container *,
+  #game-container *::before,
+  #game-container *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
