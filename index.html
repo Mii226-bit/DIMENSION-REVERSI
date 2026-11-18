@@ -19,12 +19,6 @@
         </div>
       </div>
 
-      <!-- <div id="game-header">
-        <h1>超次元オセロ</h1> -->
-
-      <!-- <p id="turn-info"></p> -->
-      <!-- </div> -->
-
       <!-- 相手のプレイヤー情報 -->
 
       <div class="board-area">
@@ -67,7 +61,29 @@
         </div>
 
         <!-- 手札 -->
-        <div id="card-hand"></div>
+        <div class="hand-scroll">
+          <button
+            id="hand-prev"
+            class="carousel-arrow"
+            type="button"
+            aria-label="手札を左にスクロール"
+            disabled
+          >
+            ‹
+          </button>
+
+          <div id="card-hand"></div>
+
+          <button
+            id="hand-next"
+            class="carousel-arrow"
+            type="button"
+            aria-label="手札を右にスクロール"
+            disabled
+          >
+            ›
+          </button>
+        </div>
       </div>
 
       <div class="game-buttons">

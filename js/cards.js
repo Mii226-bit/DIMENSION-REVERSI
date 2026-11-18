@@ -94,6 +94,7 @@ function renderCards() {
 
   updateCardSelection();
   updatePlayerInfo();
+  updateHandArrows();
 }
 
 //カード選択状態を反映

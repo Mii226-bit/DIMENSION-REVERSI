@@ -325,8 +325,7 @@ const CARDS = {
     name: "盤面回転",
     type: "disruption",
     icon: "⤾",
-    description:
-      "盤面にあるすべての駒の配置を180度回転させる。\n意味？そんなの自分で探すんだよ",
+    description: "盤面が180度回転する。\n意味？そんなの自分で探すんだよ",
     targetType: "none",
 
     messages: {

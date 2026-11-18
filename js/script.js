@@ -530,5 +530,7 @@ function updateGameInfo() {
   updatePlayerInfo();
 }
 
+initializeHandScroll();
+
 //初期状態の盤面を描画
 resetGame();

@@ -113,3 +113,50 @@ function renderOpponentHand() {
     opponentHand.appendChild(card);
   }
 }
+
+// 手札を左右にスクロール
+function scrollHand(direction) {
+  const firstCard = cardHand.querySelector(".card");
+
+  if (!firstCard) return;
+
+  const cardWidth = firstCard.offsetWidth;
+  const gap = parseFloat(getComputedStyle(cardHand).columnGap) || 0;
+
+  cardHand.scrollBy({
+    left: direction * (cardWidth + gap),
+    behavior: "smooth",
+  });
+}
+
+// スクロール位置に応じて矢印を更新
+function updateHandArrows() {
+  const prevButton = document.getElementById("hand-prev");
+  const nextButton = document.getElementById("hand-next");
+
+  const maxScroll = cardHand.scrollWidth - cardHand.clientWidth;
+
+  prevButton.disabled = cardHand.scrollLeft <= 1;
+
+  nextButton.disabled = cardHand.scrollLeft >= maxScroll - 1;
+}
+
+// 手札スクロールの初期設定
+function initializeHandScroll() {
+  const prevButton = document.getElementById("hand-prev");
+  const nextButton = document.getElementById("hand-next");
+
+  prevButton.addEventListener("click", () => {
+    scrollHand(-1);
+  });
+
+  nextButton.addEventListener("click", () => {
+    scrollHand(1);
+  });
+
+  cardHand.addEventListener("scroll", updateHandArrows);
+
+  window.addEventListener("resize", updateHandArrows);
+
+  updateHandArrows();
+}
