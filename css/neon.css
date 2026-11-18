@@ -107,7 +107,7 @@ body::before {
 .player-info {
   margin: 0;
   padding: 3px 6px;
-  min-height: 34px;
+  min-height: 47px;
   gap: 5px;
   display: flex;
   align-items: center;
@@ -228,7 +228,7 @@ body::before {
     linear-gradient(90deg, transparent 46%, #c45cff 46% 54%, transparent 54%);
 }
 #game-message {
-  min-height: 56px;
+  min-height: 80px;
   padding: 6px 10px;
   margin: 3px 0;
   display: flex;
