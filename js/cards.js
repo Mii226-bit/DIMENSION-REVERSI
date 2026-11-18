@@ -1,5 +1,12 @@
 //==== カード関連の処理 ====
 
+const CARD_TYPE_ICONS = {
+  attack: "assets/icons/flame.svg",
+  defense: "assets/icons/shield-check.svg",
+  disruption: "assets/icons/scan-line.svg",
+  special: "assets/icons/sparkles.svg",
+};
+
 //手札の初期化
 function initializeHand(count = INITIAL_HAND_SIZE) {
   playerHands = {
@@ -48,7 +55,6 @@ function drawCard(count = 1, player = currentPlayer) {
   if (player === currentPlayer) {
     renderCards();
   }
-
   return drawnCards;
 }
 
@@ -58,9 +64,26 @@ function renderCards() {
 
   playerHands[currentPlayer].forEach((cardData, index) => {
     const card = document.createElement("div");
-    card.classList.add("card");
+    card.classList.add("card", cardData.type);
 
-    card.textContent = cardData.name;
+    //カードのイラスト部分
+    const cardArt = document.createElement("span");
+    cardArt.classList.add("card-art");
+
+    //属性別アイコン
+    const cardIcon = document.createElement("img");
+    cardIcon.classList.add("card-icon");
+    cardIcon.src = CARD_TYPE_ICONS[cardData.type];
+    cardIcon.alt = "";
+
+    //カード名
+    const cardLabel = document.createElement("span");
+    cardLabel.classList.add("card-label");
+    cardLabel.textContent = cardData.name;
+
+    //カードの中に各要素を追加
+    cardArt.appendChild(cardIcon);
+    card.append(cardArt, cardLabel);
 
     card.addEventListener("click", () => {
       selectCard(index);

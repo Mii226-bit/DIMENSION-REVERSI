@@ -1,0 +1,6 @@
+Lucide Icons — https://github.com/lucide-icons/lucide
+License: ISC (see LICENSE)
+https://github.com/lucide-icons/lucide/blob/main/icons/flame.svg
+https://github.com/lucide-icons/lucide/blob/main/icons/shield-check.svg
+https://github.com/lucide-icons/lucide/blob/main/icons/scan-line.svg
+https://github.com/lucide-icons/lucide/blob/main/icons/sparkles.svg

@@ -188,14 +188,14 @@ body::before {
   justify-content: safe center;
   align-items: center;
   gap: 4px;
-  min-height: 52px;
+  min-height: 70px;
   padding: 4px;
   overflow-x: auto;
   background: linear-gradient(180deg, #5c158f22, #09041e99);
   scrollbar-width: none;
 }
 .opponent-card {
-  flex: 0 0 min(36px, calc((var(--ui-width) - 36px) / 7));
+  flex: 0 0 min(50px, calc((var(--ui-width) - 36px) / 7));
   aspect-ratio: 0.82;
   display: grid;
   place-items: center;
@@ -276,25 +276,53 @@ body::before {
   outline-offset: -2px;
   box-shadow: inset 0 0 12px #6c1582;
 }
+/* カード属性別のテーマカラー */
+.card {
+  --card-accent: #f28dff;
+  --card-accent-rgb: 242, 141, 255;
+}
+
+.card.defense {
+  --card-accent: #5cecff;
+  --card-accent-rgb: 92, 236, 255;
+}
+
+.card.disruption {
+  --card-accent: #aa70ff;
+  --card-accent-rgb: 170, 112, 255;
+}
+
+.card.special {
+  --card-accent: #ffe56a;
+  --card-accent-rgb: 255, 229, 106;
+}
+
+/* カードのイラスト部分 */
 .card-art {
   display: grid;
   place-items: center;
+
   width: 100%;
   flex: 1;
   min-height: 0;
-  background: radial-gradient(circle, #f25eff55, transparent 70%);
-  color: #f28dff;
-  font-size: 28px;
-  text-shadow: 0 0 8px #df39ff;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(var(--card-accent-rgb), 0.45),
+      transparent 65%
+    ),
+    linear-gradient(145deg, rgba(75, 24, 137, 0.2), rgba(143, 28, 170, 0.3));
 }
-.card.defense .card-art {
-  color: #5cecff;
-}
-.card.disruption .card-art {
-  color: #ffcf75;
-}
-.card.special .card-art {
-  color: #b9a0ff;
+
+/* 属性別アイコン */
+.card-icon {
+  width: 58%;
+  height: 58%;
+  object-fit: contain;
+
+  filter: brightness(0) invert(1) drop-shadow(0 0 4px var(--card-accent))
+    drop-shadow(0 0 8px var(--card-accent));
 }
 .card-label {
   width: 100%;
