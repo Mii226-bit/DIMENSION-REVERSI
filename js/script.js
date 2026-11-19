@@ -99,15 +99,10 @@ document.addEventListener("keydown", (event) => {
 
 //カード外クリック処理
 document.addEventListener("click", (event) => {
-  if (event.target.closest("#card-modal")) {
-    return;
-  }
-  if (event.target.closest(".card")) {
-    return;
-  }
-  if (event.target.closest("#board")) {
-    return;
-  }
+  if (event.target.closest("#card-modal")) return;
+  if (event.target.closest(".card")) return;
+  if (event.target.closest("#board")) return;
+  if (event.target.closest(".hand-scroll")) return;
 
   if (selectedCard !== null || isSelectingTarget || isSelectingHandTarget) {
     cancelCardSelection();
@@ -119,9 +114,7 @@ document.addEventListener("click", (event) => {
 
 //クリック処理
 function cellClick(row, col) {
-  if (gameOver) {
-    return;
-  }
+  if (gameOver) return;
 
   //カード効果で選択中
   if (isSelectingTarget) {
@@ -180,9 +173,7 @@ function requestEndTurn() {
   if (message !== "") {
     const confirmed = confirm(`${message}ターンを終了しますか？`);
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
   }
 
   finishTurn();
@@ -265,6 +256,11 @@ function showTurnOverlay() {
 function hideTurnOverlay() {
   clearTimeout(turnOverlayTimer);
   turnOverlayTimer = null;
+
+  if (document.activeElement === turnOverlay) {
+    turnOverlay.blur();
+  }
+
   turnOverlay.hidden = true;
 }
 
