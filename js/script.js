@@ -123,7 +123,8 @@ function cellClick(row, col) {
   }
 
   if (hasPlacedPiece) {
-    gameMessageText.textContent = "このターンもう駒を置いています！";
+    gameMessageText.textContent =
+      "このターンもう駒を置いています！\nカードを使用するかターンを終了してください";
     return;
   }
 
@@ -140,6 +141,11 @@ function cellClick(row, col) {
 
   //置いた駒に対応してひっくり返す
   flipPieces(row, col);
+
+  if (!hasUsedCard) {
+    gameMessageText.textContent =
+      "駒を置きました！\nカードをタップして使用できます";
+  }
 
   //駒を置いたことを記録
   hasPlacedPiece = true;
