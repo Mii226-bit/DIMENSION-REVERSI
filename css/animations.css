@@ -27,6 +27,8 @@
 .turn-shift-overlay.white {
   --turn-accent: #ff5af2;
   --turn-accent-2: #765dff;
+
+  background: radial-gradient(circle at 34% 26%, #fff, #f8f8fc 60%, #b3b6cb);
 }
 
 .turn-shift-grid {
@@ -234,6 +236,23 @@
   font-size: 10px;
   letter-spacing: 0.28em;
   animation: turn-copy-in 420ms 300ms ease-out both;
+}
+
+/* 白のターン：補助文字の視認性を改善 */
+.turn-shift-overlay.white .turn-shift-kicker {
+  color: #9657b8;
+  text-shadow: 0 0 5px rgba(150, 87, 184, 0.2);
+}
+
+.turn-shift-overlay.white .turn-shift-skip {
+  color: #686487;
+  text-shadow: none;
+}
+
+/* 白のターン：上部の装飾ライン */
+.turn-shift-overlay.white .turn-shift-kicker i {
+  background: #e252d6;
+  box-shadow: 0 0 8px rgba(226, 82, 214, 0.4);
 }
 
 @keyframes overlay-in {
