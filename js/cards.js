@@ -120,21 +120,24 @@ function selectCard(index) {
     cancelCardSelection();
   }
 
-  if (selectedCard === index) {
-    //既に選ばれてたら使用を試みる
-    useCard(index);
-  } else {
-    selectedCard = index;
-    updateCardSelection();
+  // if (selectedCard === index) {
+  //   //既に選ばれてたら使用を試みる
+  //   useCard(index);
+  // } else {
+  //   selectedCard = index;
+  //   updateCardSelection();
 
-    const card = playerHands[currentPlayer][index];
+  //   const card = playerHands[currentPlayer][index];
 
-    const message = hasUsedCard
-      ? "※このターンは既にカードを使用しました"
-      : "もう一度カードをクリックすると効果発動！";
+  //   const message = hasUsedCard
+  //     ? "※このターンは既にカードを使用しました"
+  //     : "もう一度カードをクリックすると効果発動！";
 
-    gameMessageText.textContent = `${card.description}\n${message}`;
-  }
+  //   gameMessageText.textContent = `${card.description}\n${message}`;
+  // }
+
+  //カード詳細表示
+  openCardModal(index);
 }
 
 //カード使用

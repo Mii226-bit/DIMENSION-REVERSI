@@ -13,7 +13,11 @@
   place-items: center;
   border: 0;
   background:
-    radial-gradient(circle at 50% 50%, rgba(39, 20, 103, 0.62), transparent 42%),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(39, 20, 103, 0.62),
+      transparent 42%
+    ),
     rgba(2, 2, 17, 0.82);
   backdrop-filter: blur(9px) saturate(0.8);
   cursor: pointer;
@@ -54,7 +58,9 @@
   aspect-ratio: 1;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 0 8px #fff, 0 0 22px var(--turn-accent);
+  box-shadow:
+    0 0 8px #fff,
+    0 0 22px var(--turn-accent);
   content: "";
 }
 
@@ -103,7 +109,12 @@
 .turn-shift-kicker i {
   width: clamp(34px, 8vw, 78px);
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--turn-accent), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--turn-accent),
+    transparent
+  );
   box-shadow: 0 0 8px var(--turn-accent);
 }
 
@@ -117,12 +128,35 @@
   border-top: 2px solid var(--turn-accent);
   border-bottom: 2px solid var(--turn-accent);
   background:
-    linear-gradient(90deg, transparent, rgba(13, 8, 48, 0.88) 14% 86%, transparent),
-    linear-gradient(105deg, transparent 25%, color-mix(in srgb, var(--turn-accent) 24%, transparent), transparent 72%);
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(13, 8, 48, 0.88) 14% 86%,
+      transparent
+    ),
+    linear-gradient(
+      105deg,
+      transparent 25%,
+      color-mix(in srgb, var(--turn-accent) 24%, transparent),
+      transparent 72%
+    );
   box-shadow:
     0 0 22px color-mix(in srgb, var(--turn-accent) 58%, transparent),
     inset 0 0 42px color-mix(in srgb, var(--turn-accent-2) 32%, transparent);
-  clip-path: polygon(0 17%, 5% 17%, 8% 0, 92% 0, 95% 17%, 100% 17%, 100% 83%, 95% 83%, 92% 100%, 8% 100%, 5% 83%, 0 83%);
+  clip-path: polygon(
+    0 17%,
+    5% 17%,
+    8% 0,
+    92% 0,
+    95% 17%,
+    100% 17%,
+    100% 83%,
+    95% 83%,
+    92% 100%,
+    8% 100%,
+    5% 83%,
+    0 83%
+  );
   transform-origin: center;
   animation: turn-band-in 500ms cubic-bezier(0.18, 0.82, 0.22, 1.12) both;
 }
@@ -130,7 +164,12 @@
 .turn-shift-band::before {
   position: absolute;
   inset: 0;
-  background: linear-gradient(100deg, transparent 25%, rgba(255, 255, 255, 0.28) 48%, transparent 70%);
+  background: linear-gradient(
+    100deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.28) 48%,
+    transparent 70%
+  );
   content: "";
   transform: translateX(-120%);
   animation: band-scan 900ms 340ms ease-out both;
@@ -198,7 +237,9 @@
 }
 
 @keyframes overlay-in {
-  from { opacity: 0; }
+  from {
+    opacity: 0;
+  }
 }
 
 @keyframes turn-band-in {
@@ -216,15 +257,21 @@
 }
 
 @keyframes band-scan {
-  to { transform: translateX(120%); }
+  to {
+    transform: translateX(120%);
+  }
 }
 
 @keyframes orbit-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes grid-drift {
-  to { background-position: 54px 54px; }
+  to {
+    background-position: 54px 54px;
+  }
 }
 
 .card-selection-overlay {
@@ -235,9 +282,13 @@
   padding: 24px;
   place-items: center;
   background:
-    radial-gradient(circle at 50% 45%, rgba(142, 49, 255, 0.25), transparent 34%),
-    rgba(2, 2, 16, 0.76);
-  backdrop-filter: blur(8px);
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(142, 49, 255, 0.25),
+      transparent 34%
+    ),
+    rgba(2, 2, 16, 0.35);
+  backdrop-filter: blur(2px);
   animation: card-overlay-in 180ms ease-out both;
 }
 
@@ -246,14 +297,21 @@
   --card-accent-rgb: 241, 93, 255;
   position: relative;
   display: grid;
-  width: min(86vw, 350px);
-  min-height: 500px;
+  width: min(76vw, 290px);
+  max-height: min(420px, 65dvh);
+  min-height: 0;
   padding: 20px;
   overflow: hidden;
+  overflow-y: auto;
   border: 2px solid var(--card-accent);
   border-radius: 18px;
   background:
-    linear-gradient(135deg, transparent 9%, rgba(var(--card-accent-rgb), 0.2) 9.5% 10.5%, transparent 11%),
+    linear-gradient(
+      135deg,
+      transparent 9%,
+      rgba(var(--card-accent-rgb), 0.2) 9.5% 10.5%,
+      transparent 11%
+    ),
     linear-gradient(160deg, rgba(43, 12, 84, 0.98), rgba(8, 4, 30, 0.99) 62%);
   box-shadow:
     0 0 8px #fff,
@@ -333,10 +391,26 @@
   border: 1px solid rgba(var(--card-accent-rgb), 0.72);
   background:
     linear-gradient(rgba(var(--card-accent-rgb), 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--card-accent-rgb), 0.07) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      rgba(var(--card-accent-rgb), 0.07) 1px,
+      transparent 1px
+    ),
     radial-gradient(circle, rgba(var(--card-accent-rgb), 0.3), transparent 62%);
-  background-size: 20px 20px, 20px 20px, auto;
-  clip-path: polygon(7% 0, 93% 0, 100% 9%, 100% 91%, 93% 100%, 7% 100%, 0 91%, 0 9%);
+  background-size:
+    20px 20px,
+    20px 20px,
+    auto;
+  clip-path: polygon(
+    7% 0,
+    93% 0,
+    100% 9%,
+    100% 91%,
+    93% 100%,
+    7% 100%,
+    0 91%,
+    0 9%
+  );
 }
 
 .card-preview-art svg {
@@ -364,7 +438,12 @@
   top: 50%;
   width: 130%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--card-accent), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--card-accent),
+    transparent
+  );
   content: "";
   transform: translate(-50%, -50%) rotate(35deg);
 }
@@ -412,7 +491,16 @@
   border-radius: 5px;
   font-weight: 800;
   cursor: pointer;
-  clip-path: polygon(7% 0, 93% 0, 100% 24%, 100% 76%, 93% 100%, 7% 100%, 0 76%, 0 24%);
+  clip-path: polygon(
+    7% 0,
+    93% 0,
+    100% 24%,
+    100% 76%,
+    93% 100%,
+    7% 100%,
+    0 76%,
+    0 24%
+  );
 }
 
 .card-preview-cancel {
@@ -423,7 +511,11 @@
 .card-preview-confirm {
   gap: 4px;
   border: 1px solid var(--card-accent);
-  background: linear-gradient(110deg, rgba(var(--card-accent-rgb), 0.25), rgba(var(--card-accent-rgb), 0.68));
+  background: linear-gradient(
+    110deg,
+    rgba(var(--card-accent-rgb), 0.25),
+    rgba(var(--card-accent-rgb), 0.68)
+  );
   box-shadow: 0 0 13px rgba(var(--card-accent-rgb), 0.62);
   text-shadow: 0 0 6px #fff;
 }
@@ -443,10 +535,23 @@
   }
 }
 
-@keyframes selected-card-in {
+/* 下から */
+/* @keyframes selected-card-in {
   from {
     opacity: 0;
     transform: translateY(26px) scale(0.86) rotateX(8deg);
+  }
+} */
+
+@keyframes selected-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(120px) scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -466,4 +571,35 @@
   }
 }
 
-.turn-shift-overlay[hidden],.card-selection-overlay[hidden]{display:none!important}
+.turn-shift-overlay[hidden],
+.card-selection-overlay[hidden] {
+  display: none !important;
+}
+
+/* モーダル内のSVG画像 */
+.card-modal-icon {
+  position: relative;
+  z-index: 1;
+
+  width: 104px;
+  height: 104px;
+  object-fit: contain;
+
+  filter: brightness(0) invert(1) drop-shadow(0 0 8px var(--card-accent))
+    drop-shadow(0 0 16px var(--card-accent));
+}
+
+/* 使用済みカードのボタン */
+.card-preview-confirm:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* 小さい画面でもモーダルを表示できるようにする */
+.card-selection-overlay {
+  overflow-y: auto;
+}
+
+.card-preview-close {
+  color: white;
+}

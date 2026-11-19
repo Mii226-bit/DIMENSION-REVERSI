@@ -70,14 +70,19 @@ endTurnButton.addEventListener("click", () => {
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    requestEndTurn();
-  }
+  if (event.key !== "Enter") return;
+
+  document.getElementById("card-modal").hidden = true;
+
+  event.preventDefault();
+  requestEndTurn();
 });
 
 //カード外クリック処理
 document.addEventListener("click", (event) => {
+  if (event.target.closest("#card-modal")) {
+    return;
+  }
   if (event.target.closest(".card")) {
     return;
   }
@@ -166,6 +171,7 @@ function requestEndTurn() {
 
 //敗北判定、プレイヤー交代
 function finishTurn() {
+  document.getElementById("card-modal").hidden = true;
   const result = countPieces();
   const myCount =
     currentPlayer === BLACK ? result.blackCount : result.whiteCount;
@@ -205,6 +211,7 @@ function switchPlayer() {
 
 //ゲームリセット
 function resetGame() {
+  document.getElementById("card-modal").hidden = true;
   gameMessageText.textContent = "";
   gameMessageText.classList.remove("result-message");
 

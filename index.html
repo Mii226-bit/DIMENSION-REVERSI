@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/card.css" />
     <link rel="stylesheet" href="css/neon.css" />
+    <link rel="stylesheet" href="css/animations.css" />
   </head>
   <body>
     <div id="game-container">
@@ -93,10 +94,64 @@
         <button id="endTurnButton">ターン終了</button>
       </div>
     </div>
+
+    <!-- カード詳細モーダル -->
+    <div
+      id="card-modal"
+      class="card-selection-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="card-modal-name"
+      hidden
+    >
+      <div class="selected-card-preview" id="card-modal-preview">
+        <button
+          type="button"
+          class="card-preview-close"
+          id="card-modal-close"
+          aria-label="カード詳細を閉じる"
+        >
+          ×
+        </button>
+
+        <div class="card-preview-kicker" id="card-modal-type"></div>
+
+        <div class="card-preview-art">
+          <div class="card-preview-orbit"></div>
+
+          <img id="card-modal-icon" class="card-modal-icon" alt="" />
+        </div>
+
+        <div class="card-preview-copy">
+          <h2 id="card-modal-name"></h2>
+          <p id="card-modal-description"></p>
+        </div>
+
+        <div class="card-preview-actions">
+          <button
+            type="button"
+            class="card-preview-cancel"
+            id="card-modal-cancel"
+          >
+            戻る
+          </button>
+
+          <button
+            type="button"
+            class="card-preview-confirm"
+            id="card-modal-use"
+          >
+            カードを使用
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script src="js/cardData.js"></script>
     <script src="js/cardEffects.js"></script>
     <script src="js/cards.js"></script>
     <script src="js/cardUI.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/cardModal.js"></script>
   </body>
 </html>
