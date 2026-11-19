@@ -42,19 +42,28 @@ let hasPlacedPiece = false;
 let isSelectingTarget = false; //選択対象の駒があるかどうか
 let isSelectingHandTarget = false;
 let selectedTargets = [];
+let playerTurnCounts = {
+  //プレイヤー切り替えのターン保持
+  [BLACK]: 0,
+  [WHITE]: 0,
+};
+let turnOverlayTimer = null; //アニメーションのタイマー
 
 //==== HTML要素の取得 ====
 
-//ゲーム情報
-// const blackCountText = document.getElementById("black-count");
-// const turnInfoText = document.getElementById("turn-info");
-// const whiteCountText = document.getElementById("white-count");
 const gameMessageText = document.getElementById("game-message");
 // 盤面の要素を取得
 const board = document.getElementById("board");
 const cardHand = document.getElementById("card-hand");
 const resetButton = document.getElementById("resetButton");
 const endTurnButton = document.getElementById("endTurnButton");
+
+//ターン切り替え
+const turnOverlay = document.getElementById("turn-overlay");
+const turnBannerText = document.getElementById("turn-banner-text");
+const turnNumberText = document.getElementById("turn-number");
+const turnPhaseText = document.getElementById("turn-phase");
+const turnSideText = document.getElementById("turn-side");
 
 //==== 盤面生成 ====
 createBoardCells();
@@ -69,10 +78,20 @@ endTurnButton.addEventListener("click", () => {
   requestEndTurn();
 });
 
+//タップでターン演出スキップ
+turnOverlay.addEventListener("click", () => {
+  hideTurnOverlay();
+});
+
+//エンターでターン移行
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Enter") return;
 
-  document.getElementById("card-modal").hidden = true;
+  //  ターン演出、カード詳細モーダル表示中は終了しない
+  if (!turnOverlay.hidden) return;
+  if (!document.getElementById("card-modal").hidden) return;
+
+  if (event.target.closest("button")) return;
 
   event.preventDefault();
   requestEndTurn();
@@ -143,7 +162,7 @@ function cellClick(row, col) {
 
 //ターンエンド処理
 function requestEndTurn() {
-  if (gameOver) return;
+  if (gameOver || !turnOverlay.hidden) return;
 
   const canPlace = !hasPlacedPiece && hasValidMove();
   const canUseCard = !hasUsedCard && playerHands[currentPlayer].length > 0;
@@ -195,6 +214,9 @@ function finishTurn() {
   switchPlayer();
   startTurn();
   renderBoard();
+
+  //ターン演出追加
+  showTurnOverlay();
 }
 
 //プレイヤーを切り替える
@@ -209,34 +231,41 @@ function switchPlayer() {
   console.log(`${currentPlayer === BLACK ? "黒" : "白"}のターン！`);
 }
 
-//ゲームリセット
-function resetGame() {
-  document.getElementById("card-modal").hidden = true;
-  gameMessageText.textContent = "";
-  gameMessageText.classList.remove("result-message");
+// ターン開始アニメーションを表示
+function showTurnOverlay() {
+  // 現在のプレイヤーのターン数を増やす
+  playerTurnCounts[currentPlayer]++;
 
-  BOARD_SIZE = 8;
+  const isBlack = currentPlayer === BLACK;
+  //padStart:二ケタで表示
+  const turnNumber = String(playerTurnCounts[currentPlayer]).padStart(2, "0");
 
-  boardData = Array.from({ length: BOARD_SIZE }, () =>
-    Array(BOARD_SIZE).fill(EMPTY),
-  );
+  // 表示内容を設定
+  turnBannerText.textContent = isBlack ? "黒の番" : "白の番";
+  turnSideText.textContent = isBlack ? "BLACK SIDE" : "WHITE SIDE";
+  turnNumberText.textContent = turnNumber;
+  turnPhaseText.textContent = turnNumber;
 
-  boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2 - 1] = WHITE;
-  boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2] = BLACK;
-  boardData[BOARD_SIZE / 2][BOARD_SIZE / 2 - 1] = BLACK;
-  boardData[BOARD_SIZE / 2][BOARD_SIZE / 2] = WHITE;
+  // 白のターンではCSSの発光色を変更
+  turnOverlay.classList.toggle("white", !isBlack);
 
-  gameOver = false;
-  currentPlayer = BLACK;
-  isSelectingTarget = false;
-  isSelectingHandTarget = false;
-  selectedTargets = [];
+  // 前のタイマーが残っていたら解除
+  clearTimeout(turnOverlayTimer);
 
-  createBoardCells();
+  // 演出を表示
+  turnOverlay.hidden = false;
 
-  initializeHand();
-  startTurn();
-  renderBoard();
+  // 1.7秒後に自動で閉じる
+  turnOverlayTimer = setTimeout(() => {
+    hideTurnOverlay();
+  }, 1700);
+}
+
+// ターン開始アニメーションを閉じる
+function hideTurnOverlay() {
+  clearTimeout(turnOverlayTimer);
+  turnOverlayTimer = null;
+  turnOverlay.hidden = true;
 }
 
 //盤面の大きさ変える関数
@@ -535,6 +564,44 @@ function updateGameInfo() {
 
   //プレイヤー情報更新
   updatePlayerInfo();
+}
+
+//ゲームリセット
+function resetGame() {
+  document.getElementById("card-modal").hidden = true;
+  hideTurnOverlay();
+
+  gameMessageText.textContent = "";
+  gameMessageText.classList.remove("result-message");
+
+  BOARD_SIZE = 8;
+
+  boardData = Array.from({ length: BOARD_SIZE }, () =>
+    Array(BOARD_SIZE).fill(EMPTY),
+  );
+
+  boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2 - 1] = WHITE;
+  boardData[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2] = BLACK;
+  boardData[BOARD_SIZE / 2][BOARD_SIZE / 2 - 1] = BLACK;
+  boardData[BOARD_SIZE / 2][BOARD_SIZE / 2] = WHITE;
+
+  gameOver = false;
+  currentPlayer = BLACK;
+  isSelectingTarget = false;
+  isSelectingHandTarget = false;
+  selectedTargets = [];
+  playerTurnCounts = {
+    [BLACK]: 0,
+    [WHITE]: 0,
+  };
+
+  createBoardCells();
+
+  initializeHand();
+  startTurn();
+  renderBoard();
+
+  showTurnOverlay();
 }
 
 initializeHandScroll();

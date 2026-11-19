@@ -99,6 +99,7 @@ function renderPlayerInfo(position, player, pieceCounts) {
   );
 }
 
+//相手のカードを表示
 function renderOpponentHand() {
   const opponentHand = document.getElementById("opponent-hand");
 

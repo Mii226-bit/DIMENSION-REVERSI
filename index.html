@@ -12,13 +12,39 @@
   </head>
   <body>
     <div id="game-container">
-      <!--ターン開始時の演出、後からやる-->
-      <div id="turn-overlay" class="turn-overlay" hidden>
-        <div class="turn-banner">
-          <span id="turn-banner-text"></span>
-          <span id="turn-number"></span>
-        </div>
-      </div>
+      <!-- ターン開始アニメーション -->
+      <button
+        id="turn-overlay"
+        class="turn-shift-overlay"
+        type="button"
+        aria-label="ターン開始演出をスキップ"
+        hidden
+      >
+        <span class="turn-shift-grid" aria-hidden="true"></span>
+
+        <span class="turn-shift-orbit orbit-one" aria-hidden="true"></span>
+        <span class="turn-shift-orbit orbit-two" aria-hidden="true"></span>
+
+        <span class="turn-shift-content">
+          <span class="turn-shift-kicker">
+            TURN SHIFT <i></i> PHASE
+            <span id="turn-phase">01</span>
+          </span>
+
+          <span class="turn-shift-band">
+            <small id="turn-side">BLACK SIDE</small>
+            <strong id="turn-banner-text">黒の番</strong>
+            <em>READY</em>
+          </span>
+
+          <span class="turn-shift-counter">
+            <b>CURRENT TURN</b>
+            <strong id="turn-number">01</strong>
+          </span>
+
+          <span class="turn-shift-skip">TAP TO SKIP</span>
+        </span>
+      </button>
 
       <!-- 相手のプレイヤー情報 -->
 
